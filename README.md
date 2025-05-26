@@ -38,12 +38,7 @@
    ```
    git clone https://github.com/yourusername/fanggubao.git
    ```
-
-2. 无需安装额外依赖，项目使用CDN加载所需资源：
-   - Tailwind CSS (通过CDN)
-   - Font Awesome图标库 (通过CDN)
-
-3. 如需本地开发服务器，可选择使用：
+2. 如需本地开发服务器，可选择使用：
    ```
    npx http-server ./
    ```
@@ -51,11 +46,12 @@
 
 ### 部署要求
 - 支持静态HTML托管的任何Web服务器
-- 无需后端支持，纯前端应用
 
 ## 使用说明
 
 ### 使用流程
+
+#### app端
 
 1. **启动应用**：
    - 在浏览器中打开对应文件
