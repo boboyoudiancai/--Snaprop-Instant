@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>在线估价师</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #0056b3;
+            --background-color: #f0f2f5;
+            --text-color: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        /* Messages Section */
+        .chat-messages {
+            height: 60vh;
+            padding: 20px;
+            overflow-y: auto;
+            gap: 15px;/**/
+        }
+
+        .message {
+            max-width: fit-content;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+            word-wrap: break-word;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* 对齐方式 */
+            margin: 15px 0;
+        }
+
+        .message img {
+            max-width: 30%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease; 
+        }
+
+        @media (max-width: 768px) {
+            .message {
+                max-width: 90% !important;
+            }
+            .preview-image {
+                max-width: 180px !important;
+                max-height: 135px !important;
+            }
+        }
+
+        .user-message {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            align-items: flex-end !important;
+            max-width: fit-content; 
+            min-width: 120px;
+        }
+
+        .ai-message {
+            background: #f1f3f4;
+            margin-right: auto;
+        }
+
+        /* Input Section */
+        .input-container {
+            border-top: 1px solid #eee;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+
+        #send-btn, .upload-btn {
+            padding: 12px 24px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #send-btn:hover, .upload-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 2% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .modal-body {
+            position: relative;
+            flex: 1;
+            overflow: auto;
+            margin: 15px 0;
+            height: 60vh; /* 增加固定高度 */
+            min-height: 400px; /* 最小高度保障 */
+        }
+
+        #cropImage {
+            max-width: 100%;
+            max-height: 100%; /* 限制最大高度 */
+            display: block;
+            margin: 0 auto;
+        }
+
+        .modal-footer {
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .modal-footer button {
+            padding: 8px 20px;
+            margin-left: 10px;
+            border-radius: 4px;
+        }
+
+        #confirmCrop {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        #cancelCrop {
+            background: #ddd;
+        }
+
+        /* 添加新样式类 */
+        .preview-image {
+            max-width: 200px !important; /* 固定宽度 */
+            max-height: 150px !important;
+            width: auto;
+            height: auto;
+            /*object-fit: cover;
+            cursor: zoom-in;*/
+            border: 2px solid var(--primary-color);
+            margin-left: auto;
+        }
+
+        /* 悬停效果 */
+        .preview-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-messages" id="chat-box">
+        <div class="message ai-message">您好！我是您的在线估价师阿济，请问有什么可以帮您？</div>
+    </div>
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="输入消息..." autofocus>
+        <button id="send-btn">发送</button>
+        <button class="upload-btn" id="upload-btn">上传图片</button>
+    </div>
+</div>
+
+<!-- 模态框 -->
+<div id="cropModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>裁剪图片</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <img id="cropImage" src="#" alt="待裁剪图片">
+        </div>
+        <div class="modal-footer">
+            <button id="confirmCrop">确认裁剪</button>
+            <button id="cancelCrop">取消</button>
+        </div>
+    </div>
+</div>
+
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://unpkg.com/cropperjs/dist/cropper.js"></script>
+    <script>
+        let house_info = {};  // 初始化house_info为一个空对象
+        let cropper = null;
+
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const uploadBtn = document.getElementById('upload-btn');
+        const loading = document.getElementById('loading');
+
+        const cropModal = document.getElementById('cropModal');
+        const cropImage = document.getElementById('cropImage');
+        const closeModalBtn = document.querySelector('.close');
+        const confirmCropBtn = document.getElementById('confirmCrop');
+        const cancelCropBtn = document.getElementById('cancelCrop');
+
+        // 独立处理文字消息
+        async function handleTextMessage(input) {
+            try {
+                const response = await fetch('/app/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: input,
+                        house_info: house_info
+                    })
+                });
+
+                const data = await response.json();
+                if (data.house_info) {
+                    house_info = data.house_info;  // 更新house_info
+                }
+                return data.response;
+            } catch (error) {
+                console.error('API请求失败:', error);
+                return "抱歉，暂时无法处理您的请求";
+            }
+        }
+
+// 独立处理图片上传
+async function handleImageUpload(formData) {
+    try {
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error(`上传失败: ${response.status}`);
+        
+        const result = await response.json();
+        if (result.success) {
+            house_info.property_image = result.url;
+            return {
+                userContent: `<img src="${result.url}" class="preview-image">`,
+                aiContent: '已收到房屋照片，正在分析...'
+            };
+        }
+        return null;
+
+    } catch (error) {
+        console.error('图片上传失败:', error);
+        return {
+            userContent: '图片上传失败',
+            aiContent: `上传失败: ${error.message}`
+        };
+    }
+}
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            showLoading();
+            setTimeout(async () => {  // 改为异步函数
+                const response = await handleTextMessage(message); // 等待真实API响应
+                addMessage(response, 'ai');
+                hideLoading();
+            }, 1000);
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            messageDiv.textContent = text;
+            // 将换行符转换为<br>标签
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+
+
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function generateResponse(input) {
+    try {
+        // 图片上传处理
+        if (input instanceof FormData) {
+            const uploadResponse = await fetch('/upload', {
+                method: 'POST',
+                body: input
+            });
+
+            if (!uploadResponse.ok) {
+                throw new Error(`上传失败: ${uploadResponse.status}`);
+            }
+
+            const result = await uploadResponse.json();
+            if (result.success) {
+                addMessage(`<img src="${result.url}" class="preview-image">`, 'user');
+                addMessage('已收到房屋照片，正在分析...', 'ai');
+                house_info.property_image = result.url;
+            }
+            return;
+        }
+
+        // 文字消息处理
+        const chatResponse = await fetch('/app/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: input,
+                house_info: house_info
+            })
+        });
+
+        if (!chatResponse.ok) {
+            throw new Error(`请求失败: ${chatResponse.status}`);
+        }
+
+        const responseData = await chatResponse.json();
+        house_info = responseData.house_info || house_info;
+        return responseData.response || "分析完成，请查看最新估价结果";
+
+    } catch (error) {
+        console.error('处理失败:', error);
+        return `暂时无法处理请求: ${error.message}`;
+    }
+}
+        function showLoading() {
+            loading.style.display = 'block';
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+
+        // 打开图片上传模态框
+        uploadBtn.addEventListener('click', () => {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+
+            // 添加清理逻辑
+            fileInput.onclick = () => {
+                if (cropper) {
+                    cropper.destroy();
+                    cropImage.src = ""; // 清空旧图片
+                }
+            };
+
+            fileInput.onchange = (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = (event) => {
+                        // 每次打开裁剪框之前销毁旧实例
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+
+                         // 创建临时图片进行预加载
+                         const tempImg = new Image();
+                         tempImg.onload = () => {
+                            cropImage.src = event.target.result;
+                            cropModal.style.display = 'block';
+    
+                            // 延迟初始化确保DOM更新
+                            setTimeout(() => {
+                                cropper = new Cropper(cropImage, {
+                                    viewMode: 1,  // 控制裁剪框的行为
+                                    autoCropArea: 0.8,
+                                    movable: true,
+                                    rotatable: true,
+                                    scalable: true,
+                                    checkCrossOrigin: false,
+                                    cropBoxResizable: true,
+                                    responsive: true
+                                });
+                            }, 50);
+                        };
+                        tempImg.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            fileInput.click();
+        });
+
+        // 确认裁剪并上传
+        confirmCropBtn.addEventListener('click', () => {
+            if (!cropper.getCroppedCanvas()) {
+                alert('请先选择裁剪区域');
+                return;
+            }
+
+            const canvas = cropper.getCroppedCanvas();
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'cropped_image.png');
+
+                showLoading();
+
+                try {
+                    const result = await handleImageUpload(formData);
+                    if (result) {
+                        addMessage(result.userContent, 'user');
+                        addMessage(result.aiContent, 'ai');
+                    }
+                } catch (error) {
+                    addMessage(`处理失败: ${error.message}`, 'ai');
+                } finally {
+                    hideLoading();
+                    closeCropModal();
+                }
+            });
+        });
+
+        function closeCropModal() {
+            cropModal.style.display = 'none';
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            cropImage.src = ""; // 清空图片源
+        }
+
+        cancelCropBtn.addEventListener('click', closeCropModal);
+        closeModalBtn.addEventListener('click', closeCropModal);
+        window.onclick = function(event) {
+            if (event.target === cropModal) {
+                closeCropModal();
+            }
+        };
+    </script>
+</body>
+</html>

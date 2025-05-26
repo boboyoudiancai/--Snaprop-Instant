@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+{% block title %}房产估值 - 房估宝{% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-preview {
+        max-width: 100%;
+        max-height: 200px;
+        margin-top: 10px;
+    }
+    .result-card {
+        display: none;
+    }
+    .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+    }
+    .loading-spinner {
+        width: 3rem;
+        height: 3rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="mb-4">房产估值</h1>
+        <p class="lead">请提供房产信息，我们将为您提供专业的估值分析</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">基本信息</h5>
+            </div>
+            <div class="card-body">
+                <form id="valuationForm">
+                    <div class="mb-3">
+                        <label for="address" class="form-label">房产地址 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">所在城市 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="area" class="form-label">建筑面积(平方米) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="area" name="area" min="1" step="0.01" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="floor" class="form-label">楼层</label>
+                                <select class="form-select" id="floor" name="floor">
+                                    <option value="低楼层">低楼层</option>
+                                    <option value="中楼层" selected>中楼层</option>
+                                    <option value="高楼层">高楼层</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="fitment" class="form-label">装修状况</label>
+                                <select class="form-select" id="fitment" name="fitment">
+                                    <option value="毛坯">毛坯</option>
+                                    <option value="简装" selected>简装</option>
+                                    <option value="精装">精装</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="year" class="form-label">建成年份</label>
+                                <input type="number" class="form-control" id="year" name="year" min="1900" max="2023" value="2015">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">多模态信息（可选）</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="certImage" class="form-label">房产证照片</label>
+                    <input type="file" class="form-control" id="certImage" accept="image/*">
+                    <img id="certPreview" class="upload-preview" style="display: none;">
+                    <input type="hidden" id="certImagePath" name="certImagePath">
+                </div>
+                <div class="mb-3">
+                    <label for="propertyPhoto" class="form-label">房屋外观照片</label>
+                    <input type="file" class="form-control" id="propertyPhoto" accept="image/*">
+                    <img id="photoPreview" class="upload-preview" style="display: none;">
+                    <input type="hidden" id="propertyPhotoPath" name="propertyPhotoPath">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">房产描述</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="请输入房产的详细描述，如户型、朝向、小区环境等"></textarea>
+                </div>
+                <div class="d-grid">
+                    <button type="button" id="submitBtn" class="btn btn-primary btn-lg">开始估值</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <!-- 加载中提示 -->
+        <div id="loadingIndicator" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border loading-spinner text-primary" role="status">
+                    <span class="visually-hidden">加载中...</span>
+                </div>
+            </div>
+            <p class="mt-3">正在进行房产估值分析，请稍候...</p>
+        </div>
+        
+        <!-- 估值结果 -->
+        <div id="resultCard" class="card shadow-sm mb-4 result-card">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">估值结果</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h3 class="mb-0" id="totalPrice">-</h3>
+                    <p class="text-muted">总价</p>
+                    <h4 class="mb-0" id="unitPrice">-</h4>
+                    <p class="text-muted">单价（元/平方米）</p>
+                    <div class="progress mb-2">
+                        <div id="confidenceBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <p class="text-muted">置信度: <span id="confidence">-</span></p>
+                </div>
+                
+                <h5>估值解释</h5>
+                <div class="bg-light p-3 rounded mb-3">
+                    <p id="explanation" class="mb-0" style="white-space: pre-line;">-</p>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <a id="reportLink" href="#" class="btn btn-outline-primary" target="_blank">查看完整报告</a>
+                    <button type="button" id="newValuationBtn" class="btn btn-secondary">新的估值</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 文件上传预览
+    function handleFileSelect(fileInput, previewElement, hiddenInput) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) {
+                previewElement.style.display = 'none';
+                return;
+            }
+            
+            // 显示预览
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewElement.src = e.target.result;
+                previewElement.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // 上传文件
+            uploadFile(file, fileInput.id, hiddenInput);
+        });
+    }
+    
+    // 文件上传
+    function uploadFile(file, fileType, hiddenInput) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('type', fileType);
+        
+        axios.post('/api/upload', formData)
+            .then(function(response) {
+                if (response.data.success) {
+                    hiddenInput.value = response.data.file_path;
+                } else {
+                    alert('文件上传失败: ' + response.data.error);
+                }
+            })
+            .catch(function(error) {
+                console.error('上传错误:', error);
+                alert('文件上传出错，请重试');
+            });
+    }
+    
+    // 提交估值表单
+    function submitValuation() {
+        // 获取表单数据
+        const formData = {
+            address: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            area: parseFloat(document.getElementById('area').value),
+            floor: document.getElementById('floor').value,
+            fitment: document.getElementById('fitment').value,
+            year: parseInt(document.getElementById('year').value),
+            cert_image: document.getElementById('certImagePath').value,
+            property_photo: document.getElementById('propertyPhotoPath').value,
+            description: document.getElementById('description').value
+        };
+        
+        // 显示加载指示器
+        document.getElementById('loadingIndicator').style.display = 'block';
+        document.getElementById('resultCard').style.display = 'none';
+        
+        // 发送请求
+        axios.post('/api/valuation', formData)
+            .then(function(response) {
+                // 隐藏加载指示器
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                if (response.data.success) {
+                    // 显示结果
+                    document.getElementById('resultCard').style.display = 'block';
+                    
+                    // 填充数据
+                    document.getElementById('totalPrice').textContent = formatCurrency(response.data.total_price);
+                    document.getElementById('unitPrice').textContent = formatCurrency(response.data.estimated_price) + ' 元/平方米';
+                    
+                    const confidence = response.data.confidence * 100;
+                    document.getElementById('confidence').textContent = confidence.toFixed(2) + '%';
+                    document.getElementById('confidenceBar').style.width = confidence + '%';
+                    
+                    document.getElementById('explanation').textContent = response.data.explanation;
+                    
+                    // 设置报告链接
+                    if (response.data.report_path) {
+                        const reportFilename = response.data.report_path.split('/').pop();
+                        document.getElementById('reportLink').href = '/report/' + reportFilename;
+                    }
+                } else {
+                    alert('估值失败: ' + response.data.error);
+                }
+            })
+            .catch(function(error) {
+                // 隐藏加载指示器
+                document.getElementById('loadingIndicator').style.display = 'none';
+                console.error('估值错误:', error);
+                alert('估值请求出错，请重试');
+            });
+    }
+    
+    // 格式化货币
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY' }).format(value);
+    }
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化文件上传预览
+        handleFileSelect(
+            document.getElementById('certImage'),
+            document.getElementById('certPreview'),
+            document.getElementById('certImagePath')
+        );
+        
+        handleFileSelect(
+            document.getElementById('propertyPhoto'),
+            document.getElementById('photoPreview'),
+            document.getElementById('propertyPhotoPath')
+        );
+        
+        // 提交按钮点击事件
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            // 表单验证
+            const form = document.getElementById('valuationForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            submitValuation();
+        });
+        
+        // 新估值按钮点击事件
+        document.getElementById('newValuationBtn').addEventListener('click', function() {
+            document.getElementById('resultCard').style.display = 'none';
+            window.scrollTo(0, 0);
+        });
+    });
+</script>
+{% endblock %} 

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}房估宝 - 房产估值新范式{% endblock %}
+
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-primary">房估宝</h1>
+    <div class="col-lg-8 mx-auto">
+        <p class="lead mb-4">房产估值新范式 - 基于多模态融合与大语言模型的智能房产估值系统</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="/valuation" class="btn btn-primary btn-lg px-4 gap-3">开始估值</a>
+            <a href="/about" class="btn btn-outline-secondary btn-lg px-4">了解更多</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-camera-fill fs-2 text-primary"></i>
+            </div>
+            <div>
+                <h2>多模态视觉-语义-空间融合</h2>
+                <p>结合房产证OCR信息与房屋外观的深度融合，全方位分析房产特征。</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-cpu-fill fs-2 text-primary"></i>
+            </div>
+            <div>
+                <h2>LLM增强推理架构</h2>
+                <p>利用大语言模型进行多层次信息抽取，提高估值精准度。</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-graph-up-arrow fs-2 text-primary"></i>
+            </div>
+            <div>
+                <h2>可微分规则学习框架</h2>
+                <p>将专家估值规则转化为端到端可训练的神经模块，实现智能化市场比较法。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light p-5 rounded mt-3">
+    <h2>为什么选择房估宝？</h2>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h4><i class="bi bi-check-circle-fill text-success me-2"></i>动态自适应</h4>
+            <p>权重随时间、空间、特征相似度实时调整，优先匹配近期、同区域、高相似案例，避免静态经验偏差。</p>
+            
+            <h4><i class="bi bi-check-circle-fill text-success me-2"></i>多模态建模</h4>
+            <p>融合图像（外观）、文本（政策）、地理（POI）等多维度数据，全面分析房产价值。</p>
+        </div>
+        <div class="col-md-6">
+            <h4><i class="bi bi-check-circle-fill text-success me-2"></i>自动化估值</h4>
+            <p>摆脱人工设定修正系数，机器学习自动拟合市场规律，快速完成复杂户型、新区房产等非标准场景估值。</p>
+            
+            <h4><i class="bi bi-check-circle-fill text-success me-2"></i>可解释性强</h4>
+            <p>提供详细的估值解释和报告，让您了解每个影响因素的权重和作用。</p>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/valuation" class="btn btn-primary btn-lg">立即体验</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">估值流程</h2>
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <div class="bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-1-circle-fill fs-1"></i>
+            </div>
+            <h5>上传房产信息</h5>
+            <p>提供房产证照片、房屋外观照片或文字描述</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <div class="bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-2-circle-fill fs-1"></i>
+            </div>
+            <h5>多模态信息处理</h5>
+            <p>系统自动提取并融合多模态房产特征</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <div class="bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-3-circle-fill fs-1"></i>
+            </div>
+            <h5>智能市场比较</h5>
+            <p>应用IMCA算法与可比案例进行比较</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <div class="bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-4-circle-fill fs-1"></i>
+            </div>
+            <h5>生成估值报告</h5>
+            <p>提供详细的估值结果与解释</p>
+        </div>
+    </div>
+</div>
+{% endblock %} 

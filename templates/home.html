@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>在线估价师</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #0056b3;
+            --background-color: #f0f2f5;
+            --text-color: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .chat-section {
+            flex: 1;
+            min-width: 400px;
+        }
+
+        .ocr-section {
+            width: 45%;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            display: none; /* 默认隐藏 */
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            height: 60vh;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 10px 0;
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .message img {
+            max-width: 30%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .user-message {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            align-items: flex-end !important;
+            max-width: fit-content;
+            min-width: 120px;
+        }
+
+        .ai-message {
+            background: #f1f3f4;
+            margin-right: auto;
+        }
+
+
+        .input-container {
+            border-top: 1px solid #eee;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            height: auto; /* 移除固定高度 */
+        }
+
+        #user-input {
+            flex: 1;
+            height: 100px; /* 增加输入框高度 */
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            white-space: pre-wrap; /* 允许自动换行 */
+            overflow-y: auto;      /* 添加垂直滚动条 */
+            resize: vertical;      /* 允许垂直调整大小 */
+            line-height: 1.5;      /* 增加行高 */
+            min-height: 60px;      /* 最小高度 */
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 120px;
+        }
+
+        #send-btn, #upload-btn, #new-chat-btn, .upload-btn, .save-btn {
+            padding: 12px 24px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #send-btn:hover, #upload-btn:hover, #new-chat-btn:hover, .upload-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 10px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* 添加模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 2% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .modal-body {
+            position: relative;
+            flex: 1;
+            overflow: auto;
+            margin: 15px 0;
+            height: 60vh; /* 增加固定高度 */
+            min-height: 400px; /* 最小高度保障 */
+        }
+
+        .modal-footer {
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            /**/
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-footer button {
+            padding: 8px 20px;
+            margin-left: 10px;
+            border-radius: 25px;
+            border: none;
+        }
+
+        .image-type-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .type-option {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            min-width: 100px;
+            transition: all 0.2s;
+        }
+
+        .type-option.active {
+            border-color: var(--primary-color);
+            background: rgba(0,123,255,0.1);
+            color: var(--primary-color);
+        }
+
+        .type-option i {
+            display: none !important;
+        }
+
+        .type-option span {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .preview-image {
+            max-width: 200px !important; /* 固定宽度 */
+            max-height: 150px !important;
+            width: auto;
+            height: auto;
+            /*object-fit: cover;
+            cursor: zoom-in;*/
+            border: 2px solid var(--primary-color);
+            margin-left: auto;
+        }
+
+        /* 悬停效果 */
+        .preview-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        #confirmCrop {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        #cancelCrop {
+            background: #ddd;
+        }
+
+        #cropImage {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* 图片查看器样式 */
+        .image-viewer {
+            width: 100%;
+            height: 60vh; /* 根据视口高度自适应 */
+            min-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: auto;
+            position: relative;
+            background: #f8f9fa;
+        }
+
+        /* 图片自适应样式 */
+        .viewer-image {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important; /* 保持比例自适应 */
+            cursor: grab;
+            transition: transform 0.3s ease;
+        }
+
+        /* 表格编辑器样式 */
+        .sheet-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .sheet-tab {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, box-shadow;
+        }
+
+        .sheet-tab.active {
+            border: 2px solid var(--primary-color) !important;
+            background-color: rgba(0, 123, 255, 0.15);
+            color: var(--primary-color);
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+        }
+        .sheet-tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .table-editor {
+            height: 400px;
+            white-space: pre-wrap; /* 保留换行符 */
+            overflow: auto;
+        }
+
+        .ocr-controls {
+            margin-top: 15px;
+            text-align: right;
+        }
+        .handsontable td {
+            min-width: 100px;
+            max-width: 300px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .handsontable .htDimmed {
+            background: #f8f9fa;
+        }
+
+        .handsontable .htRight .changeType {
+            background: #e3f2fd;
+        }
+        #saveOcrData {
+            transition: all 0.3s ease;
+            min-width: 100px;
+            position: relative;
+        }
+
+        #saveOcrData:disabled {
+            opacity: 0.8;
+            cursor: wait;
+        }
+
+        #saveOcrData::after {
+            content: "";
+            display: inline-block;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        #saveOcrData:not(:disabled)::after {
+            display: none;
+        }
+
+        /* 成功状态 */
+        #saveOcrData:disabled[data-status="success"] {
+            background: #28a745;
+        }
+
+        /* 失败状态 */
+        #saveOcrData:disabled[data-status="error"] {
+            background: #dc3545;
+        }
+
+        /* 文件消息容器 */
+        .file-message {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            max-width: 320px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.2s;
+        }
+
+        /* 悬停效果 */
+        .file-message:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* 文件图标容器 */
+        .file-icon {
+            background: #21a366;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 文件元数据 */
+        .file-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-title {
+            font-weight: 500;
+            color: #1a1a1a;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-details {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* 下载按钮 */
+        .download-btn {
+            color: #21a366;
+            padding: 6px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .download-btn:hover {
+            background: rgba(33, 163, 102, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* Excel图标样式 */
+        .fa-file-excel {
+            color: white;
+            font-size: 18px;
+        }
+
+        /* 下载图标 */
+        .fa-download {
+            font-size: 14px;
+        }
+
+        /* PDF文件卡片专用样式 */
+        .fa-file-pdf {
+            color: white;
+            font-size: 18px;
+        }
+
+        .pdf-icon {
+            background: #cc0000;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pdf-download {
+            color: #cc0000;
+            padding: 6px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .pdf-download:hover {
+            background: #ffe5e5;
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="chat-section">
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-box">
+                    <div class="message ai-message">
+                        您好！我是您的在线估价师阿济，请问有什么可以帮您？
+                    </div>
+                </div>
+                <div class="typing-indicator" id="loading">阿济正在思考...</div>
+                <div class="input-container">
+                    <textarea id="user-input" placeholder="输入消息..." autofocus></textarea>
+                    <div class="button-group">
+                        <button class="send-btn" id="send-btn">发送</button>
+                        <button class="upload-btn" id="upload-btn">上传图片</button>
+                        <button class="new-chat-btn" id="new-chat-btn">新对话</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- OCR处理区 -->
+        <div class="ocr-section" id="ocrSection">
+            <div class="image-viewer" id="imageViewer"></div>
+            <div class="sheet-tabs" id="sheetTabs"></div>
+            <div class="table-editor" id="tableEditor"></div>
+            <div class="ocr-controls">
+                <button class="save-btn" id="saveOcrData">保存修改</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cropModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>裁剪图片</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <img id="cropImage" src="#" alt="待裁剪图片">
+            </div>
+            <div class="modal-footer">
+                <div class="image-type-selector">
+                    <div class="type-option active" data-type="property_cert">产权证明</div>
+                    <div class="type-option" data-type="property_photo">物业实拍</div>
+                </div>
+                <div class="action-buttons">
+                    <button id="confirmCrop">确认裁剪</button>
+                    <button id="cancelCrop">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加依赖库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/handsontable@15.0.1/dist/handsontable.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/handsontable@15.0.1/dist/handsontable.full.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js"></script>
+    <script>
+        let cropper = null;
+        // 在全局变量中增加当前选择的图片类型
+        let currentImageType = 'property_cert'; // 默认选择产权证明
+        let hotInstance = null;
+        let currentOCRData = null;
+        let isReport = false;
+
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const uploadBtn = document.getElementById('upload-btn');
+        const loading = document.getElementById('loading');
+
+        const cropModal = document.getElementById('cropModal');
+        const cropImage = document.getElementById('cropImage');
+        const closeModalBtn = document.querySelector('.close');
+        const confirmCropBtn = document.getElementById('confirmCrop');
+        const cancelCropBtn = document.getElementById('cancelCrop');
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            showLoading();
+            setTimeout(async () => {  // 改为异步函数
+                const response = await handleTextMessage(message); // 等待真实API响应
+                addMessage(response, 'ai');
+                if(isReport) {
+                    const response = await fetch('/get_report', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'}
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        showPdfFileMessage(result.file_info);
+                    }
+                }
+                hideLoading();
+            }, 1000);
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+
+            messageDiv.textContent = text;
+            // 将换行符转换为<br>标签
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+
+
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // 独立处理文字消息
+        async function handleTextMessage(input) {
+            try {
+                const response = await fetch('/app/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: input
+                    })
+                });
+
+                const data = await response.json();
+                console.log(data.response)
+                if (data.isReport){
+                    isReport=true;
+                }
+                return data.response;
+            } catch (error) {
+                console.error('API请求失败:', error);
+                return "抱歉，暂时无法处理您的请求";
+            }
+        }
+
+        // 独立处理图片上传
+        async function handleImageUpload(formData) {
+
+        }
+
+        // 类型选择交互逻辑
+        document.querySelectorAll('.type-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // 移除所有激活状态
+                document.querySelectorAll('.type-option').forEach(item => {
+                    item.classList.remove('active');
+                });
+        
+                // 设置当前激活状态
+                this.classList.add('active');
+                currentImageType = this.dataset.type;
+            });
+        });
+
+
+        function showLoading() {
+            loading.style.display = 'block';
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey){
+                e.preventDefault();  // 阻止默认换行行为
+                sendMessage();
+            } 
+        });
+
+        // 打开图片上传模态框
+        uploadBtn.addEventListener('click', () => {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+
+            // 添加清理逻辑
+            fileInput.onclick = () => {
+                if (cropper) {
+                    cropper.destroy();
+                    cropImage.src = ""; // 清空旧图片
+                }
+            };
+
+            fileInput.onchange = (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = (event) => {
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                        cropImage.src = event.target.result;
+                        cropper = new Cropper(cropImage, {
+                            viewMode: 1,
+                            autoCropArea: 0.8,
+                            movable: true,
+                            rotatable: true,
+                            scalable: true,
+                            checkCrossOrigin: false,
+                            cropBoxResizable: true,
+                            responsive: true
+                        });
+                        cropModal.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            };
+            fileInput.click();
+        });
+
+        function closeCropModal() {
+            cropModal.style.display = 'none';
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            cropImage.src = ""; // 清空图片源
+        }
+
+        cancelCropBtn.addEventListener('click', closeCropModal);
+        closeModalBtn.addEventListener('click', closeCropModal);
+        window.onclick = function (event) {
+            if (event.target === cropModal) {
+                closeCropModal();
+            }
+        };
+
+        // 确认裁剪并上传
+        confirmCropBtn.addEventListener('click', () => {
+            if (!cropper.getCroppedCanvas()) {
+                alert('请先选择裁剪区域');
+                return;
+            }
+
+            const canvas = cropper.getCroppedCanvas();
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'cropped_image.png');
+                formData.append('image_type', currentImageType); // 添加类型参数
+                showLoading()
+
+                try {
+                    const response = await fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    console.log(result);
+                    if (result.success) {
+                        addMessage(`<img src="${result.url}" class="preview-image">`, 'user');
+                        // 根据类型生成不同AI回复
+                        let aiResponse = '';
+                        switch(currentImageType) {
+                            case 'property_cert':
+                                aiResponse = '已收到产权证明文件，正在确认OCR识别...';
+                                break;
+                            case 'property_photo':
+                                aiResponse = '已收到物业实拍照片!';
+                                break;
+                            default:
+                                aiResponse = '已收到上传资料，开始分析...';
+                        }
+                        addMessage(aiResponse, 'ai');
+                    }
+                    document.getElementById('cropModal').style.display = 'none';
+                    hideLoading();
+                    closeCropModal();
+                    setTimeout(async() => {
+                        if (currentImageType === 'property_cert') {
+                        showLoading()
+                        console.log(result.filename)
+                        const ocr_response = await fetch('/upload/ocr', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                ocr_img:result.filename
+                            })
+                        })
+                        const ocr_result = await ocr_response.json()
+                        hideLoading()
+                        console.log(ocr_result.success)
+                        if(ocr_result.success){
+                            // addMessage("OCR识别完成",'ai')
+                            // 显示OCR处理区
+                            document.getElementById('ocrSection').style.display = 'block';
+                            // 初始化图片查看器
+                            initImageViewer(result.url);
+                            // 处理OCR数据
+                            if (ocr_result.data) {
+                                currentOCRData = ocr_result.data;
+                                console.log('OCR数据已加载:', currentOCRData);
+                                initTableEditor(currentOCRData);
+                            }
+                        }
+                        else{
+                            addMessage("OCR识别出错",'ai')
+                            console.log(ocr_result.error)
+                        }
+                    }
+                    }, 1000);
+                } catch (error) {
+                    hideLoading();
+                    closeCropModal();
+                    console.error('上传失败:', error);
+                    addMessage('图片上传失败', 'ai');
+                }
+            });
+        });
+
+        // 初始化图片查看器
+        function initImageViewer(imageUrl) {
+            const viewerContainer = document.getElementById('imageViewer');
+            viewerContainer.innerHTML = `<img src="${imageUrl}" style="max-width: 100%">`;
+            new Viewer(viewerContainer.querySelector('img'), {
+                inline: false,
+                movable: true,
+                zoomable: true,
+                rotatable: true,
+                scalable: true,
+                fullscreen: false,
+                transition: true,
+                keyboard: false,
+                toolbar: {
+                    zoomIn: true,
+                    zoomOut: true,
+                    oneToOne: true,
+                    reset: true,
+                    rotateLeft: true,
+                    rotateRight: true,
+                },
+                viewed() {
+                    // 自适应调整
+                    this.viewer.tooltip.style.display = 'none';
+                    this.zoomTo(1);
+                }
+            });
+        }
+
+        function createSheetTab(sheetName, isActive) {
+            const tab = document.createElement('div');
+            tab.className = `sheet-tab ${isActive ? 'active' : ''}`;
+            tab.textContent = sheetName;
+            // 使用事件委托
+            tab.addEventListener('click', (e) => {
+                // 移除所有激活状态
+                document.querySelectorAll('.sheet-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                // 添加当前激活状态
+                e.currentTarget.classList.add('active');
+                switchSheet(sheetName);
+            });
+            return tab;
+        }
+
+        let old_sheet=''
+        // 初始化表格编辑器
+        function initTableEditor(ocrData) {
+            const container = document.getElementById('tableEditor');
+            const sheetTabs = document.getElementById('sheetTabs');
+            // 清空现有内容
+            container.innerHTML = '';
+            sheetTabs.innerHTML = '';
+            // 添加数据校验
+            if (!ocrData || typeof ocrData !== 'object') {
+                console.error('无效的OCR数据格式');
+                return;
+            }
+            // 新增定义sheets变量
+            const sheets = Object.keys(ocrData);
+            if (sheets.length === 0) {
+                console.warn('没有可用的工作表');
+                return;
+            }
+            // 生成Sheet标签
+            sheets.forEach((sheetName, index) => {
+                sheetTabs.appendChild(createSheetTab(sheetName, index === 0));
+            });
+
+            // 初始化第一个Sheet
+            const firstSheet = sheets[0];
+            old_sheet = firstSheet
+            // console.log("初始化",old_sheet)
+            hotInstance = new Handsontable(container, {
+                data: ocrData[firstSheet].data.map(row => {
+                    const obj = {};
+                    row.forEach((value, index) => {
+                        obj[ocrData[firstSheet].columns[index]] = value;
+                    });
+                    return obj;
+                }),
+                columns: ocrData[firstSheet].columns.map(col => ({
+                    data: col,
+                    type: 'text',
+                    title: col
+                })),
+                rowHeaders: false,
+                colHeaders: true,
+                manualRowMove: true,
+                manualColumnMove: true,
+                contextMenu: true,
+                licenseKey: 'non-commercial-and-evaluation',
+                mergeCells: ocrData[firstSheet].merges.map(merge => ({
+                    row: merge.start_row,
+                    col: merge.start_col,
+                    rowspan: merge.end_row - merge.start_row + 1,
+                    colspan: merge.end_col - merge.start_col + 1
+                }))
+            });
+            console.log("初始化",ocrData[firstSheet].merges)
+        }
+
+        // 切换Sheet
+        function switchSheet(sheetName) {
+            // console.log("切换前",old_sheet)
+            // 自动保存当前sheet的修改
+            if (old_sheet && hotInstance) {
+                const updatedData = hotInstance.getSourceData();
+                currentOCRData[old_sheet].data = updatedData.map(row =>
+                        currentOCRData[old_sheet].columns.map(col => row[col])
+                );
+                currentOCRData[old_sheet].merges = hotInstance.getPlugin('mergeCells')
+                        .mergedCellsCollection.mergedCells.map(merge => ({
+                            start_row: merge.row,
+                            end_row: merge.row + merge.rowspan - 1,
+                            start_col: merge.col,
+                            end_col: merge.col + merge.colspan - 1
+                        }));
+            }
+            console.log("切换后",currentOCRData[old_sheet].merges)
+            // 更新标签状态
+            document.querySelectorAll('.sheet-tab').forEach(tab => tab.classList.remove('active'));
+            const activeTab = Array.from(document.querySelectorAll('.sheet-tab'))
+                    .find(tab => tab.textContent === sheetName);
+            if (activeTab) activeTab.classList.add('active');
+            old_sheet = sheetName
+            // 加载新sheet数据
+            if (hotInstance && currentOCRData[sheetName]) {
+                hotInstance.updateSettings({
+                    data: currentOCRData[sheetName].data,
+                    columns: currentOCRData[sheetName].columns.map(col => ({
+                        data: col,
+                        type: 'text',
+                        title: col
+                    })),
+                    mergeCells: currentOCRData[sheetName].merges.map(merge => ({
+                        row: merge.start_row,
+                        col: merge.start_col,
+                        rowspan: merge.end_row - merge.start_row + 1,
+                        colspan: merge.end_col - merge.start_col + 1
+                    }))
+                });
+                hotInstance.render();
+            }
+        }
+
+        // 保存修改
+        document.getElementById('saveOcrData').addEventListener('click', async () => {
+            try {
+                const saveBtn = document.getElementById('saveOcrData');
+                saveBtn.disabled = true;
+                saveBtn.textContent = '保存中...';
+
+                // 转换所有sheet数据
+                const allSheetsData = Object.keys(currentOCRData).reduce((acc, sheetName) => {
+                    const hotData = hotInstance.getSourceData();  // 获取当前显示的sheet数据
+                    const isCurrentSheet = sheetName === document.querySelector('.sheet-tab.active').textContent;
+                    // 如果是当前显示的sheet使用最新数据，否则使用内存中的原始数据
+                    const sheetData = isCurrentSheet
+                            ? hotData.map(row =>
+                                    currentOCRData[sheetName].columns.map(col => row[col])
+                            )
+                            : currentOCRData[sheetName].data;
+
+                    const merges = isCurrentSheet
+                            ? hotInstance.getPlugin('mergeCells').mergedCellsCollection.mergedCells.map(merge => ({
+                                start_row: merge.row,
+                                end_row: merge.row + merge.rowspan - 1,
+                                start_col: merge.col,
+                                end_col: merge.col + merge.colspan - 1
+                            }))
+                            :currentOCRData[sheetName].merges;
+                    acc[sheetName] = {
+                        columns: currentOCRData[sheetName].columns,
+                        data: sheetData,
+                        merges: merges
+                    };
+                    return acc;
+                }, {});
+                // 更新内存数据
+                Object.keys(allSheetsData).forEach(sheetName => {
+                    currentOCRData[sheetName] = allSheetsData[sheetName];
+                });
+                // 发送完整数据到后端
+                const response = await fetch('/save_ocr_data', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        ocr_data: allSheetsData
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    closePreview();
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = '保存修改';
+                    addMessage('OCR识别结果确认完毕：','ai')
+                    showExcelFileMessage(result.file_info);
+                    showLoading();
+                    setTimeout(async () => {
+                        const response = await get_table_info(result.file_info.name);
+                        addMessage(response, 'ai');
+                        hideLoading();
+                    }, 1000);
+                } else {
+                    const saveBtn = document.getElementById('saveOcrData');
+                    saveBtn.textContent = '! 保存失败';
+                    saveBtn.style.backgroundColor = '#dc3545';
+                    setTimeout(() => {
+                        saveBtn.textContent = '保存修改';
+                        saveBtn.style.backgroundColor = '';
+                        saveBtn.disabled = false;
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('保存失败:', error);
+                const saveBtn = document.getElementById('saveOcrData');
+                saveBtn.textContent = '! 保存失败';
+                saveBtn.style.backgroundColor = '#dc3545';
+                setTimeout(() => {
+                    saveBtn.textContent = '保存修改';
+                    saveBtn.style.backgroundColor = '';
+                    saveBtn.disabled = false;
+                }, 2000);
+            }
+        });
+
+        // 辅助函数：关闭预览
+        function closePreview() {
+            document.getElementById('ocrSection').style.display = 'none';
+            currentOCRData = null;
+            if (hotInstance) {
+                hotInstance.destroy();
+                hotInstance = null;
+            }
+        }
+
+
+        // 收到响应后生成表格文件卡片
+        function showExcelFileMessage(fileInfo) {
+            const msgElement = document.createElement('div');
+            msgElement.className = 'file-message'; // 仅使用自定义样式
+            msgElement.innerHTML = `
+            <div class="file-icon">
+                <i class="fas fa-file-excel"></i>
+            </div>
+            <div class="file-meta">
+                <div class="file-title">${fileInfo.name}</div>
+                <div class="file-details">${fileInfo.size} • ${fileInfo.time}</div>
+            </div>
+            <a href="${fileInfo.url}" class="download-btn">
+                <i class="fas fa-download"></i>
+            </a>`;
+            // 直接插入聊天框并滚动到底部
+            const chatBox = document.getElementById('chat-box');
+            chatBox.appendChild(msgElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            // 添加交互动画
+            msgElement.addEventListener('click', function(e) {
+                if (!e.target.closest('a')) { // 非下载按钮点击
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => this.style.transform = '', 200);
+                }
+            });
+        }
+
+        // 收到响应后生成pdf文件卡片
+        function showPdfFileMessage(fileInfo) {
+            const msgElement = document.createElement('div');
+            msgElement.className = 'file-message';
+            msgElement.innerHTML = `
+            <div class="file-icon pdf-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="file-meta">
+                <div class="file-title">${fileInfo.name}</div>
+                <div class="file-details">${fileInfo.size} • ${fileInfo.time}</div>
+            </div>
+            <a href="${fileInfo.url}" class="download-btn pdf-download">
+                <i class="fas fa-download"></i>
+            </a>`;
+            // 直接插入聊天框并滚动到底部
+            const chatBox = document.getElementById('chat-box');
+            chatBox.appendChild(msgElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            // 添加交互动画
+            msgElement.addEventListener('click', function(e) {
+                if (!e.target.closest('a')) { // 非下载按钮点击
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => this.style.transform = '', 200);
+                }
+            });
+        }
+
+        async function get_table_info(filename) {
+            console.log(filename)
+            try {
+                const response = await fetch('/app/get_ocr_result', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: filename
+                    })
+                });
+
+                const data = await response.json();
+                return data.response;
+            } catch (error) {
+                console.error('API请求失败:', error);
+                return "抱歉，暂时无法处理您的请求";
+            }
+        }
+
+        // 新增新对话功能
+        document.getElementById('new-chat-btn').addEventListener('click', () => {
+            document.getElementById('chat-box').innerHTML = `
+                <div class="message ai-message">
+                    您好！我是您的在线估价师阿济，请问有什么可以帮您？
+                </div>`;
+            // 前端调用方式
+            fetch('/clean_records', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'}
+            })
+        });
+
+
+    </script>
+</body>
+</html>
