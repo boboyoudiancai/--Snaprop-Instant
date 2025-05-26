@@ -1,0 +1,2950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房估宝 - 智能房产估值平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+        }
+        .logo-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .typing-animation {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+        }
+        .pulse-bg {
+            animation: pulse-bg 2s infinite;
+        }
+        @keyframes pulse-bg {
+            0%, 100% { background-color: rgba(59, 130, 246, 0.1); }
+            50% { background-color: rgba(59, 130, 246, 0.3); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen font-sans">
+    <!-- Landing Page -->
+    <div id="landing" class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="fixed top-0 w-full z-50 glass-effect">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-3">
+                        <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-14 h-14 rounded-xl">
+                        <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">房估宝</span>
+                    </div>
+                    <nav class="hidden md:flex space-x-8">
+                        <a onclick="showPage('features_detail')" class="text-gray-700 hover:text-blue-600 transition-colors font-medium cursor-pointer">产品功能</a>
+                        <a onclick="showPage('pricing')" class="text-gray-700 hover:text-blue-600 transition-colors font-medium cursor-pointer">服务价格</a>
+                        <a onclick="showPage('about')" class="text-gray-700 hover:text-blue-600 transition-colors font-medium cursor-pointer">关于我们</a>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('login')" class="text-gray-700 hover:text-blue-600 font-medium">登录</button>
+                        <button onclick="showPage('signup')" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all">注册</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="flex-1 flex items-center justify-center pt-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <div class="mb-8">
+                    <img src="Snaprop_Logo_Option_3.png" class="w-32 h-32 mx-auto mb-6 logo-animation shadow-2xl rounded-4xl">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                        AI智能房产估值
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-1xl md:text-2xl mt-2">
+                            专业·精准·高效
+                        </span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
+                        基于大数据和人工智能技术，为您提供专业的房产估值服务
+                        <br>
+                        <span class="typing-animation inline-block">3分钟获得详细估值报告，准确率高达90%</span>
+                    </p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <button onclick="showPage('dashboard')" class="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all transform hover:scale-105">
+                        <i class="fas fa-rocket mr-2"></i>
+                        立即开始估值
+                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <div class="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center">
+                            <i class="fas fa-play text-blue-600"></i>
+                        </div>
+                        <span class="font-medium">观看演示视频</span>
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">1000+</div>
+                        <div class="text-gray-600">已估值房产</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600 mb-2">90%</div>
+                        <div class="text-gray-600">估值准确率</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600 mb-2">100+</div>
+                        <div class="text-gray-600">用户信赖</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600 mb-2">3分钟</div>
+                        <div class="text-gray-600">快速出报告</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">为什么选择房估宝？</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">我们使用最先进的AI技术和海量市场数据，为您提供最专业的房产估值服务</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="group p-8 rounded-3xl border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-brain text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">AI智能分析</h3>
+                        <p class="text-gray-600 leading-relaxed">基于深度学习算法，综合分析房产位置、面积、楼层、装修等多维度因素，提供精准估值</p>
+                    </div>
+                    
+                    <div class="group p-8 rounded-3xl border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-database text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">海量数据支撑</h3>
+                        <p class="text-gray-600 leading-relaxed">整合全国300+城市房产交易数据，实时更新市场行情，确保估值结果与市场同步</p>
+                    </div>
+                    
+                    <div class="group p-8 rounded-3xl border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-shield-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">专业可信赖</h3>
+                        <p class="text-gray-600 leading-relaxed">由资深房产评估师团队监督，结合专业评估标准，为您提供权威可信的估值报告</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="hidden min-h-screen flex items-center justify-center px-4 gradient-bg">
+        <div class="max-w-md w-full">
+            <div class="glass-effect rounded-3xl p-8 shadow-2xl">
+                <div class="text-center mb-8">
+                    <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-16 h-16 mx-auto mb-4 rounded-2xl">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">欢迎回来</h2>
+                    <p class="text-gray-600">登录您的房估宝账户</p>
+                </div>
+                
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">手机号</label>
+                        <input type="tel" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="请输入手机号">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">密码</label>
+                        <div class="relative">
+                            <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="请输入密码">
+                            <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-2 text-sm text-gray-600">记住我</span>
+                        </label>
+                        <a href="#" class="text-sm text-blue-600 hover:text-blue-500">忘记密码？</a>
+                    </div>
+                    <button type="button" onclick="showPage('dashboard')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+                        登录
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600 text-sm">
+                        还没有账户？
+                        <button onclick="showPage('signup')" class="text-blue-600 hover:text-blue-500 font-medium">立即注册</button>
+                    </p>
+                </div>
+                
+                <button onclick="showPage('landing')" class="absolute top-4 left-4 w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup" class="hidden min-h-screen flex items-center justify-center px-4 gradient-bg">
+        <div class="max-w-md w-full">
+            <div class="glass-effect rounded-3xl p-8 shadow-2xl">
+                <div class="text-center mb-8">
+                    <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-16 h-16 mx-auto mb-4 rounded-2xl">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">创建账户</h2>
+                    <p class="text-gray-600">加入房估宝，开启智能估值之旅</p>
+                </div>
+                
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">姓名</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="请输入您的姓名">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">手机号</label>
+                        <input type="tel" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="请输入手机号">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">验证码</label>
+                        <div class="flex space-x-3">
+                            <input type="text" class="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="请输入验证码">
+                            <button type="button" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all whitespace-nowrap">获取验证码</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">密码</label>
+                        <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="请设置密码">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <span class="ml-2 text-sm text-gray-600">我已阅读并同意<a href="#" class="text-blue-600 hover:text-blue-500">用户协议</a>和<a href="#" class="text-blue-600 hover:text-blue-500">隐私政策</a></span>
+                    </div>
+                    <button type="button" onclick="showPage('dashboard')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+                        注册
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600 text-sm">
+                        已有账户？
+                        <button onclick="showPage('login')" class="text-blue-600 hover:text-blue-500 font-medium">立即登录</button>
+                    </p>
+                </div>
+                
+                <button onclick="showPage('landing')" class="absolute top-4 left-4 w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-10 h-10 rounded-xl">
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">房估宝</h1>
+                            <p class="text-sm text-gray-600">智能房产估值平台</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="relative p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full">
+                            <div class="hidden md:block">
+                                <p class="text-sm font-medium text-gray-900">张先生</p>
+                                <p class="text-xs text-gray-600">VIP用户</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-32 translate-x-32"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-3xl font-bold mb-2">欢迎使用房估宝</h2>
+                        <p class="text-blue-100 mb-6 text-lg">开始您的智能房产估值之旅，3分钟获得专业报告</p>
+                        <button onclick="showPage('valuation')" class="bg-white bg-opacity-20 backdrop-blur-sm px-8 py-4 rounded-2xl text-white font-semibold hover:bg-opacity-30 transition-all flex items-center space-x-2">
+                            <i class="fas fa-camera"></i>
+                            <span>立即开始估值</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">5</p>
+                            <p class="text-sm text-gray-600">已估值房产</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clock text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">4.5分钟</p>
+                            <p class="text-sm text-gray-600">平均估值时间</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-star text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">4.9</p>
+                            <p class="text-sm text-gray-600">满意度评分</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-trophy text-orange-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">VIP</p>
+                            <p class="text-sm text-gray-600">会员等级</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <button onclick="showPage('valuation')" class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all text-left">
+                    <div class="w-14 h-14 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-camera text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">智能估值</h3>
+                    <p class="text-gray-600 text-sm mb-4">拍照上传房产信息，AI智能分析估值</p>
+                    <div class="flex items-center text-blue-600 text-sm font-medium">
+                        <span>立即估值</span>
+                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </button>
+
+                <button onclick="showPage('history')" class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all text-left">
+                    <div class="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-history text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">估值记录</h3>
+                    <p class="text-gray-600 text-sm mb-4">查看历史估值记录和详细报告</p>
+                    <div class="flex items-center text-green-600 text-sm font-medium">
+                        <span>查看记录</span>
+                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </button>
+
+                <button onclick="showPage('market_trends')" class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all text-left">
+                    <div class="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">周边行情</h3>
+                    <p class="text-gray-600 text-sm mb-4">查看周边房价走势和市场分析</p>
+                    <div class="flex items-center text-purple-600 text-sm font-medium">
+                        <span>查看行情</span>
+                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Market Overview -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-900 mb-6">市场概览</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center p-4">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">¥52,800</div>
+                        <div class="text-sm text-gray-600 mb-1">上海均价/㎡</div>
+                        <div class="text-green-500 text-sm font-medium">+2.3% ↗</div>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="text-3xl font-bold text-purple-600 mb-2">¥45,200</div>
+                        <div class="text-sm text-gray-600 mb-1">北京均价/㎡</div>
+                        <div class="text-red-500 text-sm font-medium">-0.8% ↘</div>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="text-center p-4">
+                            <div class="text-3xl font-bold text-green-600 mb-2">¥38,900</div>
+                            <div class="text-sm text-gray-600 mb-1">深圳均价/㎡</div>
+                            <div class="text-green-500 text-sm font-medium">+1.2% ↗</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    
+        <!-- Valuation Step 1 Page -->
+        <div id="valuation" class="hidden min-h-screen bg-gray-50">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center py-4">
+                        <div class="flex items-center space-x-4">
+                            <button onclick="showPage('dashboard')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                                <i class="fas fa-arrow-left text-gray-600"></i>
+                            </button>
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">智能估值</h1>
+                                <p class="text-sm text-gray-600">拍照上传，3分钟获得专业报告</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 text-sm font-bold">1</span>
+                            </div>
+                            <div class="w-16 h-1 bg-blue-600 rounded"></div>
+                            <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                <span class="text-gray-500 text-sm font-bold">2</span>
+                            </div>
+                            <div class="w-16 h-1 bg-gray-200 rounded"></div>
+                            <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                <span class="text-gray-500 text-sm font-bold">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+    
+            <!-- Main Content -->
+            <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="bg-white rounded-3xl p-8 shadow-sm">
+                    <div class="text-center mb-8">
+                        <img src="Snaprop_Logo_Option_3.png" class="w-24 h-24 mx-auto mb-6 rounded-3xl">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">步骤一：上传房产证明照片</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">请上传房产证、不动产权证等产权证明文件照片，用于验证房产信息</p>
+                    </div>
+    
+                    <!-- Upload Area -->
+                    <div class="border-2 border-dashed border-gray-300 rounded-2xl p-12 mb-8 hover:border-blue-400 transition-colors cursor-pointer" onclick="document.getElementById('certificateInput').click()">
+                        <div class="text-center">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium text-gray-900 mb-2">点击或拖拽上传证明照片</p>
+                            <p class="text-gray-500">支持JPG、PNG格式，确保文件清晰可见</p>
+                        </div>
+                        <input type="file" id="certificateInput" multiple accept="image/*" class="hidden" onchange="handleCertificateUpload(event)">
+                    </div>
+    
+                    <!-- Uploaded Images -->
+                    <div id="certificateImages" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8 hidden">
+                        <!-- Certificate images will be displayed here -->
+                    </div>
+    
+                    <!-- Property Info Form -->
+                    <div class="space-y-6 mb-8">
+                        <h3 class="text-xl font-semibold text-gray-900">基本信息</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">房产地址</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="请输入详细地址">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">建筑面积 (㎡)</label>
+                                <input type="number" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="例：90">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">房型</label>
+                                <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                                    <option>请选择房型</option>
+                                    <option>1室1厅</option>
+                                    <option>2室1厅</option>
+                                    <option>2室2厅</option>
+                                    <option>3室2厅</option>
+                                    <option>3室2厅2卫</option>
+                                    <option>4室2厅2卫</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">楼层</label>
+                                <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                                    <option>请选择楼层</option>
+                                    <option>低层 (1-3层)</option>
+                                    <option>中层 (4-15层)</option>
+                                    <option>高层 (16层以上)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">装修情况</label>
+                                <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                                    <option>请选择装修情况</option>
+                                    <option>毛坯</option>
+                                    <option>简装</option>
+                                    <option>精装</option>
+                                    <option>豪装</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">建筑年代</label>
+                                <input type="number" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="例：2010">
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showPage('dashboard')" class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all">
+                            返回首页
+                        </button>
+                        <button onclick="showPage('valuation_step2')" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center space-x-2">
+                            <span>下一步</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        <!-- Valuation Step 2 Page -->
+        <div id="valuation_step2" class="hidden min-h-screen bg-gray-50">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center py-4">
+                        <div class="flex items-center space-x-4">
+                            <button onclick="showPage('valuation')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                                <i class="fas fa-arrow-left text-gray-600"></i>
+                            </button>
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">智能估值</h1>
+                                <p class="text-sm text-gray-600">拍照上传，3分钟获得专业报告</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 text-sm font-bold"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div class="w-16 h-1 bg-blue-600 rounded"></div>
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 text-sm font-bold">2</span>
+                            </div>
+                            <div class="w-16 h-1 bg-gray-200 rounded"></div>
+                            <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                <span class="text-gray-500 text-sm font-bold">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+    
+            <!-- Main Content -->
+            <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="bg-white rounded-3xl p-8 shadow-sm">
+                    <div class="text-center mb-8">
+                        <img src="Snaprop_Logo_Option_3.png" class="w-24 h-24 mx-auto mb-6 rounded-3xl">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">步骤二：上传房产外观照片</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">请上传房产的外观、内部装修、周边环境等照片，我们的AI将智能分析并给出精准估值</p>
+                    </div>
+    
+                    <!-- Upload Area -->
+                    <div class="border-2 border-dashed border-gray-300 rounded-2xl p-12 mb-8 hover:border-blue-400 transition-colors cursor-pointer" onclick="document.getElementById('propertyInput').click()">
+                        <div class="text-center">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium text-gray-900 mb-2">点击或拖拽上传房产照片</p>
+                            <p class="text-gray-500">支持JPG、PNG格式，最多上传10张照片</p>
+                        </div>
+                        <input type="file" id="propertyInput" multiple accept="image/*" class="hidden" onchange="handlePropertyUpload(event)">
+                    </div>
+    
+                    <!-- Uploaded Images -->
+                    <div id="propertyImages" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 hidden">
+                        <!-- Property images will be displayed here -->
+                    </div>
+    
+                    <!-- Photo Requirements -->
+                    <div class="bg-blue-50 rounded-xl p-6 mb-8">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">拍摄建议</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <i class="fas fa-building text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900 mb-1">房屋外观</p>
+                                    <p class="text-sm text-gray-600">拍摄整栋楼、小区入口、单元门等</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <i class="fas fa-couch text-green-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900 mb-1">室内装修</p>
+                                    <p class="text-sm text-gray-600">拍摄客厅、卧室、厨房、卫生间等</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <i class="fas fa-tree text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900 mb-1">周边环境</p>
+                                    <p class="text-sm text-gray-600">拍摄小区绿化、配套设施等</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <i class="fas fa-subway text-orange-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900 mb-1">交通配套</p>
+                                    <p class="text-sm text-gray-600">拍摄附近地铁站、公交站、商场等</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showPage('valuation')" class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all">
+                            上一步
+                        </button>
+                        <button onclick="startValuation()" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center space-x-2">
+                            <i class="fas fa-chart-line"></i>
+                            <span>开始估值</span>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    
+        <!-- Valuation Results Page -->
+        <div id="results" class="hidden min-h-screen bg-gray-50">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center py-4">
+                        <div class="flex items-center space-x-4">
+                            <button onclick="showPage('valuation')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                                <i class="fas fa-arrow-left text-gray-600"></i>
+                            </button>
+                            <div class="flex items-center space-x-3">
+                                <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                                <div>
+                                    <h1 class="text-xl font-bold text-gray-900">估值报告</h1>
+                                    <p class="text-sm text-gray-600">AI智能分析完成</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="px-4 py-2 bg-green-100 text-green-700 rounded-xl font-medium hover:bg-green-200 transition-all">
+                                <i class="fas fa-download mr-2"></i>
+                                下载报告
+                            </button>
+                            <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-xl font-medium hover:bg-blue-200 transition-all">
+                                <i class="fas fa-share mr-2"></i>
+                                分享
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+    
+            <!-- Main Content -->
+            <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Valuation Result Card -->
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-32 translate-x-32"></div>
+                    <div class="relative z-10">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                            <div class="mb-4 md:mb-0">
+                                <h2 class="text-3xl font-bold mb-2">估值结果</h2>
+                                <p class="text-blue-100">基于AI智能分析的专业评估</p>
+                                <div class="mt-2 flex items-center">
+                                    <span class="px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm text-white mr-2">报告编号: VR-2024-12345</span>
+                                    <span class="px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm text-white">生成时间: 2024-12-18</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-5xl font-bold mb-2">¥520万</div>
+                                <div class="text-blue-100">总价评估</div>
+                                <div class="mt-2 flex items-center justify-end">
+                                    <span class="text-sm text-white bg-green-500 bg-opacity-30 px-3 py-1 rounded-full">置信区间: ¥510-530万</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                                <div class="text-2xl font-bold mb-1">¥52,000</div>
+                                <div class="text-blue-100 text-sm">单价/㎡</div>
+                            </div>
+                            <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                                <div class="text-2xl font-bold mb-1">95%</div>
+                                <div class="text-blue-100 text-sm">准确度</div>
+                            </div>
+                            <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                                <div class="text-2xl font-bold mb-1">+5.2%</div>
+                                <div class="text-blue-100 text-sm">vs 同区域</div>
+                            </div>
+                            <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                                <div class="text-2xl font-bold mb-1">100㎡</div>
+                                <div class="text-blue-100 text-sm">建筑面积</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- 房产基本信息 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                        房产基本信息
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="border-r border-gray-100 pr-4">
+                            <p class="text-sm text-gray-500">房产类型</p>
+                            <p class="font-medium text-gray-900">普通住宅</p>
+                        </div>
+                        <div class="border-r border-gray-100 pr-4">
+                            <p class="text-sm text-gray-500">建筑面积</p>
+                            <p class="font-medium text-gray-900">100㎡</p>
+                        </div>
+                        <div class="border-r border-gray-100 pr-4">
+                            <p class="text-sm text-gray-500">户型</p>
+                            <p class="font-medium text-gray-900">3室2厅2卫</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">所在楼层</p>
+                            <p class="font-medium text-gray-900">15层/30层</p>
+                        </div>
+                        <div class="border-r border-gray-100 pr-4">
+                            <p class="text-sm text-gray-500">建筑年代</p>
+                            <p class="font-medium text-gray-900">2015年</p>
+                        </div>
+                        <div class="border-r border-gray-100 pr-4">
+                            <p class="text-sm text-gray-500">装修情况</p>
+                            <p class="font-medium text-gray-900">精装修</p>
+                        </div>
+                        <div class="border-r border-gray-100 pr-4">
+                            <p class="text-sm text-gray-500">朝向</p>
+                            <p class="font-medium text-gray-900">南北通透</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">产权年限</p>
+                            <p class="font-medium text-gray-900">70年</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Details -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Price Analysis -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <i class="fas fa-chart-pie text-blue-600 mr-2"></i>
+                            价格影响因素分析
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-blue-50 rounded-xl">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">地段评分</p>
+                                        <p class="text-sm text-gray-600">交通便利，配套完善，临近地铁2号线</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-bold text-blue-600">95分</div>
+                                    <div class="text-sm text-gray-500">优秀</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-green-50 rounded-xl">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-home text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">房屋状况</p>
+                                        <p class="text-sm text-gray-600">装修精良，保养良好，无渗漏问题</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-bold text-green-600">88分</div>
+                                    <div class="text-sm text-gray-500">良好</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-orange-50 rounded-xl">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-building text-orange-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">楼盘品质</p>
+                                        <p class="text-sm text-gray-600">知名开发商，品质楼盘，物业管理完善</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-bold text-orange-600">92分</div>
+                                    <div class="text-sm text-gray-500">优秀</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-purple-50 rounded-xl">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-graduation-cap text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">教育资源</p>
+                                        <p class="text-sm text-gray-600">优质学区房，临近重点小学和中学</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-bold text-purple-600">96分</div>
+                                    <div class="text-sm text-gray-500">优秀</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Market Comparison -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <i class="fas fa-balance-scale text-blue-600 mr-2"></i>
+                            市场对比分析
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-gray-600">该房产估值</span>
+                                <div>
+                                    <span class="font-bold text-blue-600">¥52,000/㎡</span>
+                                    <span class="text-xs text-green-600 ml-2">+5.2%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-gray-600">小区均价</span>
+                                <div>
+                                    <span class="font-medium text-gray-900">¥49,500/㎡</span>
+                                    <span class="text-xs text-gray-500 ml-2">参考近3个月成交</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-gray-600">区域均价</span>
+                                <div>
+                                    <span class="font-medium text-gray-900">¥48,200/㎡</span>
+                                    <span class="text-xs text-gray-500 ml-2">参考近3个月成交</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-gray-600">城市均价</span>
+                                <div>
+                                    <span class="font-medium text-gray-900">¥45,800/㎡</span>
+                                    <span class="text-xs text-gray-500 ml-2">参考近3个月成交</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-gray-600">同户型参考价</span>
+                                <div>
+                                    <span class="font-medium text-gray-900">¥50,800/㎡</span>
+                                    <span class="text-xs text-gray-500 ml-2">参考近3个月成交</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fas fa-chart-line text-green-600"></i>
+                                <span class="font-medium text-gray-900">市场表现分析</span>
+                            </div>
+                            <p class="text-sm text-gray-600">该房产价值高于区域均价5.2%，主要受学区资源和交通便利性影响。根据市场趋势分析，该区域房价预计未来12个月内将保持稳定增长，具有较好的投资价值和保值潜力。</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Property Features -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-star text-blue-600 mr-2"></i>
+                        房产价值影响因素
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="border border-gray-100 rounded-xl p-4 hover:shadow-md transition-all">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-3">
+                                    <i class="fas fa-subway text-blue-600 text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900">交通便利性</h4>
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 text-xs">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">4.5/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">距离地铁2号线站点500米，步行约6分钟；周边公交线路4条，可便捷到达市中心和商业区</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500">价值贡献</span>
+                                <span class="text-blue-600 font-bold">+8%</span>
+                            </div>
+                        </div>
+                        <div class="border border-gray-100 rounded-xl p-4 hover:shadow-md transition-all">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-3">
+                                    <i class="fas fa-graduation-cap text-green-600 text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900">教育资源</h4>
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 text-xs">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">5/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">位于市重点小学学区内，步行300米；临近省重点中学，教育资源丰富，学区房价值显著</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500">价值贡献</span>
+                                <span class="text-green-600 font-bold">+12%</span>
+                            </div>
+                        </div>
+                        <div class="border border-gray-100 rounded-xl p-4 hover:shadow-md transition-all">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-3">
+                                    <i class="fas fa-shopping-cart text-purple-600 text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900">商业配套</h4>
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 text-xs">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">4/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">步行10分钟可达大型购物中心，周边有超市、银行、餐饮等生活配套设施，便利性高</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500">价值贡献</span>
+                                <span class="text-purple-600 font-bold">+5%</span>
+                            </div>
+                        </div>
+                        <div class="border border-gray-100 rounded-xl p-4 hover:shadow-md transition-all">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mr-3">
+                                    <i class="fas fa-tree text-orange-600 text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900">环境品质</h4>
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 text-xs">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">3.5/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">小区绿化率35%，800米处有城市公园，环境宜人；空气质量良好，噪音污染较低</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500">价值贡献</span>
+                                <span class="text-orange-600 font-bold">+3%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 价格趋势分析 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-chart-line text-blue-600 mr-2"></i>
+                        区域房价趋势分析
+                    </h3>
+                    <div class="p-4 bg-blue-50 rounded-xl mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-medium text-gray-900">区域房价走势 (近12个月)</h4>
+                                <p class="text-sm text-gray-600">数据来源: 房估宝市场研究中心</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-lg font-bold text-blue-600">+3.8%</div>
+                                <div class="text-sm text-gray-500">年度涨幅</div>
+                            </div>
+                        </div>
+                        <div class="h-40 bg-white rounded-lg p-2 flex items-end space-x-1">
+                            <div class="h-[30%] w-full bg-blue-200 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">1月</span>
+                            </div>
+                            <div class="h-[35%] w-full bg-blue-300 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">2月</span>
+                            </div>
+                            <div class="h-[40%] w-full bg-blue-300 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">3月</span>
+                            </div>
+                            <div class="h-[45%] w-full bg-blue-400 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">4月</span>
+                            </div>
+                            <div class="h-[50%] w-full bg-blue-400 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">5月</span>
+                            </div>
+                            <div class="h-[55%] w-full bg-blue-500 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">6月</span>
+                            </div>
+                            <div class="h-[60%] w-full bg-blue-500 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">7月</span>
+                            </div>
+                            <div class="h-[65%] w-full bg-blue-600 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">8月</span>
+                            </div>
+                            <div class="h-[70%] w-full bg-blue-600 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">9月</span>
+                            </div>
+                            <div class="h-[75%] w-full bg-blue-700 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">10月</span>
+                            </div>
+                            <div class="h-[80%] w-full bg-blue-700 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">11月</span>
+                            </div>
+                            <div class="h-[85%] w-full bg-blue-800 rounded-t-sm relative">
+                                <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-500">12月</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 border border-gray-100 rounded-xl">
+                            <h4 class="font-medium text-gray-900 mb-2">短期预测 (3个月)</h4>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-arrow-up text-green-600"></i>
+                                <span class="text-green-600 font-bold">+1.2%</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">受学区政策调整影响，短期内价格有小幅上涨趋势</p>
+                        </div>
+                        <div class="p-4 border border-gray-100 rounded-xl">
+                            <h4 class="font-medium text-gray-900 mb-2">中期预测 (6个月)</h4>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-arrow-up text-green-600"></i>
+                                <span class="text-green-600 font-bold">+2.5%</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">区域内新地铁线路开通，预计带动房价稳步上涨</p>
+                        </div>
+                        <div class="p-4 border border-gray-100 rounded-xl">
+                            <h4 class="font-medium text-gray-900 mb-2">长期预测 (12个月)</h4>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-arrow-up text-green-600"></i>
+                                <span class="text-green-600 font-bold">+4.0%</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">区域规划升级，商业配套完善，长期看涨</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- 评估师点评 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-comment-alt text-blue-600 mr-2"></i>
+                        专业评估师点评
+                    </h3>
+                    <div class="flex items-start space-x-4 mb-6">
+                        <img src="1.png" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <div class="flex items-center mb-1">
+                                <h4 class="font-medium text-gray-900 mr-2">杨竣雅</h4>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">资深房产评估师</span>
+                                <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs ml-2">10年经验</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">国家注册房地产估价师，从业经验10年，擅长住宅、商业地产评估</p>
+                            <div class="p-4 bg-gray-50 rounded-xl">
+                                <p class="text-gray-700 italic leading-relaxed">
+                                    "该房产位于城市核心区域，地段优越，交通便利。特别是教育资源丰富，属于优质学区房，具有较强的市场竞争力。房屋装修精良，保养状况良好，建筑质量稳定。综合各项因素分析，该房产估值合理，具有良好的保值增值潜力。建议业主可以考虑长期持有，或在市场行情良好时择机出售。"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-blue-50 rounded-xl">
+                        <div>
+                            <p class="font-medium text-gray-900">综合评分</p>
+                            <div class="flex text-yellow-400 mt-1">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="ml-2 text-gray-700">4.5/5</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-medium text-gray-900">投资建议</p>
+                            <p class="text-blue-700 font-bold mt-1">适合长期持有</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showPage('dashboard')" class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all">
+                        返回首页
+                    </button>
+                    <button onclick="showPage('valuation')" class="px-8 py-3 bg-blue-100 text-blue-700 rounded-xl font-semibold hover:bg-blue-200 transition-all">
+                        重新估值
+                    </button>
+                    <div class="flex-1 sm:flex-none flex gap-2">
+                        <button class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all flex items-center justify-center">
+                            <i class="fas fa-share-alt mr-2"></i>
+                            分享报告
+                        </button>
+                        <button class="flex-1 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i>
+                            下载PDF
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    
+     <!-- History Page -->
+     <div id="history" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('dashboard')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">估值记录</h1>
+                                <p class="text-sm text-gray-600">查看历史估值记录和详细报告</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-xl font-medium hover:bg-blue-200 transition-all">
+                            <i class="fas fa-filter mr-2"></i>
+                            筛选
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-chart-bar text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">5</p>
+                            <p class="text-sm text-gray-600">总估值次数</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-home text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">¥2,180万</p>
+                            <p class="text-sm text-gray-600">累计估值金额</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clock text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900">2024-12</p>
+                            <p class="text-sm text-gray-600">最近估值</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History List -->
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">估值记录</h3>
+                </div>
+                
+                <!-- Record Items -->
+                <div class="divide-y divide-gray-200">
+                    <!-- Record 1 -->
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=80&h=80&fit=crop" class="w-16 h-16 rounded-xl object-cover">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-1">上海市浦东新区世纪大道123号</h4>
+                                    <p class="text-sm text-gray-600 mb-2">3室2厅2卫 · 120㎡ · 15/30层</p>
+                                    <div class="flex items-center space-x-4 text-sm">
+                                        <span class="text-blue-600 font-medium">¥624万</span>
+                                        <span class="text-gray-500">¥52,000/㎡</span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">精装</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500 mb-2">2024-12-15</p>
+                                <button onclick="showPage('results')" class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-all">
+                                    查看报告
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Record 2 -->
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=80&h=80&fit=crop" class="w-16 h-16 rounded-xl object-cover">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-1">上海市徐汇区淮海中路456号</h4>
+                                    <p class="text-sm text-gray-600 mb-2">2室1厅1卫 · 85㎡ · 8/25层</p>
+                                    <div class="flex items-center space-x-4 text-sm">
+                                        <span class="text-blue-600 font-medium">¥468万</span>
+                                        <span class="text-gray-500">¥55,000/㎡</span>
+                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs">简装</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500 mb-2">2024-12-10</p>
+                                <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-all">
+                                    查看报告
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Record 3 -->
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=80&h=80&fit=crop" class="w-16 h-16 rounded-xl object-cover">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-1">上海市黄浦区南京东路789号</h4>
+                                    <p class="text-sm text-gray-600 mb-2">4室2厅2卫 · 150㎡ · 20/35层</p>
+                                    <div class="flex items-center space-x-4 text-sm">
+                                        <span class="text-blue-600 font-medium">¥825万</span>
+                                        <span class="text-gray-500">¥55,000/㎡</span>
+                                        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">豪装</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500 mb-2">2024-12-05</p>
+                                <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-all">
+                                    查看报告
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Record 4 -->
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=80&h=80&fit=crop" class="w-16 h-16 rounded-xl object-cover">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-1">上海市静安区延安中路321号</h4>
+                                    <p class="text-sm text-gray-600 mb-2">1室1厅1卫 · 60㎡ · 12/20层</p>
+                                    <div class="flex items-center space-x-4 text-sm">
+                                        <span class="text-blue-600 font-medium">¥312万</span>
+                                        <span class="text-gray-500">¥52,000/㎡</span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">精装</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500 mb-2">2024-11-28</p>
+                                <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-all">
+                                    查看报告
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Record 5 -->
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?w=80&h=80&fit=crop" class="w-16 h-16 rounded-xl object-cover">
+                                <div>
+                                    <h4 class="font-semibent text-gray-900 mb-1">上海市长宁区虹桥路654号</h4>
+                                    <p class="text-sm text-gray-600 mb-2">3室2厅1卫 · 110㎡ · 6/18层</p>
+                                    <div class="flex items-center space-x-4 text-sm">
+                                        <span class="text-blue-600 font-medium">¥495万</span>
+                                        <span class="text-gray-500">¥45,000/㎡</span>
+                                        <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">毛坯</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500 mb-2">2024-11-20</p>
+                                <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-all">
+                                    查看报告
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Load More -->
+                <div class="p-6 text-center border-t border-gray-200">
+                    <button class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all">
+                        加载更多记录
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('dashboard')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">个人中心</h1>
+                                <p class="text-sm text-gray-600">管理您的账户信息和设置</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-xl font-medium hover:bg-blue-200 transition-all">
+                        <i class="fas fa-edit mr-2"></i>
+                        编辑资料
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Profile Card -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white mb-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-32 translate-x-32"></div>
+                <div class="relative z-10 flex items-center space-x-6">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face" class="w-24 h-24 rounded-2xl border-4 border-white border-opacity-30">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">张先生</h2>
+                        <p class="text-blue-100 mb-4">VIP会员 · 注册时间：2024年11月</p>
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold">5</div>
+                                <div class="text-blue-100 text-sm">估值次数</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold">¥2,180万</div>
+                                <div class="text-blue-100 text-sm">累计估值</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold">95%</div>
+                                <div class="text-blue-100 text-sm">满意度</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Account Settings -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">账户设置</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-user text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">基本信息</p>
+                                    <p class="text-sm text-gray-600">修改姓名、手机号等</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-lock text-green-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">安全设置</p>
+                                    <p class="text-sm text-gray-600">修改密码、安全验证</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-bell text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">通知设置</p>
+                                    <p class="text-sm text-gray-600">消息提醒偏好设置</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Settings -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">服务管理</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-crown text-orange-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">VIP会员</p>
+                                    <p class="text-sm text-gray-600">会员权益与续费</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">有效期至2025-12-31</span>
+                                <i class="fas fa-chevron-right text-gray-400"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-file-invoice text-red-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">账单记录</p>
+                                    <p class="text-sm text-gray-600">消费记录与发票</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-teal-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-headset text-teal-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">客服支持</p>
+                                    <p class="text-sm text-gray-600">联系客服与意见反馈</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="mt-8 text-center">
+                <button onclick="showPage('landing')" class="px-8 py-3 bg-red-100 text-red-700 rounded-xl font-semibold hover:bg-red-200 transition-all">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    安全退出
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Market Trends Page -->
+    <div id="market_trends" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('dashboard')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">周边行情</h1>
+                                <p class="text-sm text-gray-600">实时掌握区域房价动态</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-xl font-medium hover:bg-blue-200 transition-all">
+                            <i class="fas fa-sync-alt mr-2"></i>
+                            更新数据
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Location Selector -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">选择区域</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">城市</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <option>上海市</option>
+                            <option>北京市</option>
+                            <option>广州市</option>
+                            <option>深圳市</option>
+                            <option>杭州市</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">区域</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <option>浦东新区</option>
+                            <option>徐汇区</option>
+                            <option>静安区</option>
+                            <option>黄浦区</option>
+                            <option>长宁区</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">小区名称</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="输入小区名称（选填）">
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                        <i class="fas fa-search mr-2"></i>
+                        查询行情
+                    </button>
+                </div>
+            </div>
+
+            <!-- Market Overview -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white mb-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-32 translate-x-32"></div>
+                <div class="relative z-10">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                        <div class="mb-4 md:mb-0">
+                            <h2 class="text-3xl font-bold mb-2">浦东新区房价概览</h2>
+                            <p class="text-blue-100">数据更新时间：2024-12-18</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-5xl font-bold mb-2">¥52,800</div>
+                            <div class="text-blue-100">平均单价/㎡</div>
+                            <div class="mt-2 flex items-center justify-end">
+                                <span class="text-sm text-white bg-green-500 bg-opacity-30 px-3 py-1 rounded-full">同比上涨 2.3%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                            <div class="text-2xl font-bold mb-1">5,280套</div>
+                            <div class="text-blue-100 text-sm">月成交量</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                            <div class="text-2xl font-bold mb-1">28天</div>
+                            <div class="text-blue-100 text-sm">平均成交周期</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                            <div class="text-2xl font-bold mb-1">98.2%</div>
+                            <div class="text-blue-100 text-sm">挂牌价实现率</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-2xl p-4 backdrop-blur-sm">
+                            <div class="text-2xl font-bold mb-1">7,520套</div>
+                            <div class="text-blue-100 text-sm">在售房源</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Trend Chart -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-chart-line text-blue-600 mr-2"></i>
+                    房价走势（近12个月）
+                </h3>
+                <div class="h-80 bg-gray-50 rounded-xl p-4 mb-4">
+                    <!-- 模拟图表区域 -->
+                    <div class="w-full h-full flex items-end space-x-1">
+                        <div class="h-[30%] w-full bg-blue-200 rounded-t-sm"></div>
+                        <div class="h-[35%] w-full bg-blue-300 rounded-t-sm"></div>
+                        <div class="h-[40%] w-full bg-blue-300 rounded-t-sm"></div>
+                        <div class="h-[45%] w-full bg-blue-400 rounded-t-sm"></div>
+                        <div class="h-[50%] w-full bg-blue-400 rounded-t-sm"></div>
+                        <div class="h-[55%] w-full bg-blue-500 rounded-t-sm"></div>
+                        <div class="h-[60%] w-full bg-blue-500 rounded-t-sm"></div>
+                        <div class="h-[65%] w-full bg-blue-600 rounded-t-sm"></div>
+                        <div class="h-[70%] w-full bg-blue-600 rounded-t-sm"></div>
+                        <div class="h-[75%] w-full bg-blue-700 rounded-t-sm"></div>
+                        <div class="h-[80%] w-full bg-blue-700 rounded-t-sm"></div>
+                        <div class="h-[85%] w-full bg-blue-800 rounded-t-sm"></div>
+                    </div>
+                </div>
+                <div class="flex justify-between text-sm text-gray-500">
+                    <span>2023-12</span>
+                    <span>2024-01</span>
+                    <span>2024-02</span>
+                    <span>2024-03</span>
+                    <span>2024-04</span>
+                    <span>2024-05</span>
+                    <span>2024-06</span>
+                    <span>2024-07</span>
+                    <span>2024-08</span>
+                    <span>2024-09</span>
+                    <span>2024-10</span>
+                    <span>2024-11</span>
+                </div>
+            </div>
+
+            <!-- Neighborhood Comparison -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-map-marked-alt text-blue-600 mr-2"></i>
+                    热门小区均价对比
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">小区名称</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">均价(元/㎡)</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">环比</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">同比</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">在售套数</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">建筑年代</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">陆家嘴花园</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-blue-600 font-bold">65,800</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+1.2%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+3.5%</td>
+                                <td class="px-6 py-4 whitespace-nowrap">42</td>
+                                <td class="px-6 py-4 whitespace-nowrap">2010年</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">世纪花园</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-blue-600 font-bold">58,500</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+0.8%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+2.7%</td>
+                                <td class="px-6 py-4 whitespace-nowrap">28</td>
+                                <td class="px-6 py-4 whitespace-nowrap">2005年</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">金桥花园</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-blue-600 font-bold">52,300</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-red-600">-0.3%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+1.5%</td>
+                                <td class="px-6 py-4 whitespace-nowrap">35</td>
+                                <td class="px-6 py-4 whitespace-nowrap">2008年</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">张江高科技园区</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-blue-600 font-bold">55,200</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+1.5%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+4.2%</td>
+                                <td class="px-6 py-4 whitespace-nowrap">18</td>
+                                <td class="px-6 py-4 whitespace-nowrap">2015年</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">浦江华侨城</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-blue-600 font-bold">48,600</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+0.5%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-green-600">+2.1%</td>
+                                <td class="px-6 py-4 whitespace-nowrap">24</td>
+                                <td class="px-6 py-4 whitespace-nowrap">2012年</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Market Analysis -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-lightbulb text-blue-600 mr-2"></i>
+                    市场分析与预测
+                </h3>
+                <div class="p-4 bg-blue-50 rounded-xl mb-6">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fas fa-chart-line text-blue-600"></i>
+                        <span class="font-medium text-gray-900">浦东新区市场趋势分析</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        浦东新区作为上海重要的商业和金融中心，房地产市场一直保持稳定增长。近期受益于区域内新基础设施建设和产业升级，房价呈现稳步上升趋势。特别是陆家嘴、张江等核心区域，由于优质教育资源和完善的商业配套，房价涨幅高于区域平均水平。
+                    </p>
+                    <p class="text-gray-600">
+                        预计未来6个月内，浦东新区房价将保持2-3%的温和增长，其中临近地铁新线的区域增长潜力更大。投资者可关注张江科技园区周边和即将开通的地铁沿线区域，这些区域有较好的增值空间。
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 border border-gray-200 rounded-xl hover:shadow-md transition-all">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mr-3">
+                                <i class="fas fa-home text-blue-600"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-900">供需关系</h4>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">当前市场供需比为0.85，属于供小于求的卖方市场，有利于房价稳中有升。</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-xl hover:shadow-md transition-all">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mr-3">
+                                <i class="fas fa-university text-green-600"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-900">政策影响</h4>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">最新调控政策趋于稳定，首套房贷款利率维持在较低水平，有利于刚需购房者入市。</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-xl hover:shadow-md transition-all">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-3">
+                                <i class="fas fa-building text-purple-600"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-900">新房供应</h4>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">未来6个月内浦东预计有3个新盘入市，约1200套房源，整体供应量较为有限。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Housing Type Analysis -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-th-large text-blue-600 mr-2"></i>
+                    不同户型均价分析
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-medium text-gray-900">一居室</h4>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">30-50㎡</span>
+                        </div>
+                        <div class="text-2xl font-bold text-blue-600 mb-2">¥56,800/㎡</div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-500">同比变化</span>
+                            <span class="text-green-600">+3.2%</span>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-medium text-gray-900">二居室</h4>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">50-90㎡</span>
+                        </div>
+                        <div class="text-2xl font-bold text-blue-600 mb-2">¥53,500/㎡</div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-500">同比变化</span>
+                            <span class="text-green-600">+2.8%</span>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-medium text-gray-900">三居室</h4>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">90-120㎡</span>
+                        </div>
+                        <div class="text-2xl font-bold text-blue-600 mb-2">¥51,200/㎡</div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-500">同比变化</span>
+                            <span class="text-green-600">+2.5%</span>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-medium text-gray-900">四居及以上</h4>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">120㎡以上</span>
+                        </div>
+                        <div class="text-2xl font-bold text-blue-600 mb-2">¥48,600/㎡</div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-500">同比变化</span>
+                            <span class="text-green-600">+1.8%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Features Detail Page -->
+    <div id="features_detail" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('landing')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">产品功能</h1>
+                                <p class="text-sm text-gray-600">探索房估宝的智能估值能力</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="showPage('signup')" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition-all">
+                        免费注册
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Hero Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white mb-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-32 translate-x-32"></div>
+                <div class="relative z-10 flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+                        <h2 class="text-3xl font-bold mb-4">AI智能房产估值</h2>
+                        <p class="text-blue-100 mb-6 text-lg leading-relaxed">
+                            房估宝运用先进的人工智能技术和海量房产数据，为您提供精准的房产估值服务。无论是自住、投资还是交易，都能帮您做出明智决策。
+                        </p>
+                        <button onclick="showPage('dashboard')" class="px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center space-x-2">
+                            <i class="fas fa-rocket"></i>
+                            <span>立即体验</span>
+                        </button>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <img src="Snaprop_Logo_Option_3.png" class="w-48 h-48 object-cover rounded-3xl shadow-2xl logo-animation">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Features -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">核心功能</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="group p-6 border border-gray-200 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-camera text-white text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">拍照智能估值</h4>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            只需上传房产照片和基本信息，AI技术自动识别房屋特征，结合地理位置、建筑结构等因素，快速生成精准估值。
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                3分钟内完成估值
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                准确率高达90%
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                无需专业知识
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="group p-6 border border-gray-200 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-file-alt text-white text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">专业估值报告</h4>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            生成全面详实的房产估值报告，包含估值结果、市场对比、价值影响因素分析和专业评估师点评，为决策提供有力支持。
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                多维度价值分析
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                市场趋势预测
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                专业投资建议
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="group p-6 border border-gray-200 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-map-marked-alt text-white text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">周边行情分析</h4>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            实时掌握区域房价走势，了解周边小区价格对比，助您把握市场动态，洞察投资机会，做出更明智的房产决策。
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                300+城市数据覆盖
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                实时市场动态
+                            </li>
+                            <li class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                小区详细对比
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Showcase -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">技术优势</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-brain text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">极速便捷的评估体验</h4>
+                            <p class="text-gray-600">
+                                仅需拍摄房产证和房屋照片，3分钟即可获得专业级房产估值报告，彻底告别传统评估需要数天等待的痛点，让房产价值评估变得像拍照一样简单。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-database text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">多模态融合的精准估值</h4>
+                            <p class="text-gray-600">
+                                深度整合房产证OCR信息与房屋外观特征，结合LLM智能推理架构，实现比传统方法更高的估值精度，让每一次评估都更加可信。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-shield-alt text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">专家智慧的数字化传承</h4>
+                            <p class="text-gray-600">
+                             独有的可微分规则学习框架将资深房产评估师的经验智慧转化为AI可学习的神经模块，让系统具备专家级的判断能力，在保证专业性的同时实现规模化应用。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-chart-line text-orange-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">革新传统的智能化方法</h4>
+                            <p class="text-gray-600">突破性的智能化市场比较法（IMCA）全面升级传统三大估值方法，通过深度学习技术充分挖掘多维度房产特征，在提升评估准确度的同时大幅提高评估效率，为房产估值行业带来颠覆性变革。  
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Use Cases -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">应用场景</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 rounded-xl p-6 hover:shadow-lg transition-all">
+                        <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-home text-blue-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2 text-center">买卖房产</h4>
+                        <p class="text-gray-600 text-center">
+                            买家可以评估心仪房产的合理价格，避免高价购入；卖家可以了解房产的市场价值，设定合理的挂牌价格，加速成交。
+                        </p>
+                    </div>
+
+                    <div class="bg-purple-50 rounded-xl p-6 hover:shadow-lg transition-all">
+                        <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-chart-pie text-purple-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2 text-center">投资决策</h4>
+                        <p class="text-gray-600 text-center">
+                            投资者可以评估不同区域、不同类型房产的投资价值，分析回报率和增值潜力，制定最优的投资组合和策略。
+                        </p>
+                    </div>
+
+                    <div class="bg-green-50 rounded-xl p-6 hover:shadow-lg transition-all">
+                        <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-university text-green-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2 text-center">贷款抵押</h4>
+                        <p class="text-gray-600 text-center">
+                            申请房产抵押贷款前，可以预先了解房产的市场价值，合理规划贷款金额，提高贷款审批效率和成功率。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Testimonials -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">用户评价</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-all">
+                        <div class="flex text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "作为一名房产投资者，房估宝帮我节省了大量时间和精力。估值结果非常准确，几乎与最终成交价相差无几，让我在谈判中更有底气。"
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full mr-3">
+                            <div>
+                                <p class="font-medium text-gray-900">张先生</p>
+                                <p class="text-xs text-gray-500">房产投资者</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-all">
+                        <div class="flex text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "第一次买房，对市场完全不了解，房估宝的估值报告非常详细，帮我分析了各种影响因素，让我避免了购买溢价房产的风险。"
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full mr-3">
+                            <div>
+                                <p class="font-medium text-gray-900">李女士</p>
+                                <p class="text-xs text-gray-500">首次购房者</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-all">
+                        <div class="flex text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "作为房产经纪人，我经常使用房估宝为客户提供专业建议。系统操作简单，报告生成快速，大大提高了工作效率，客户也很满意。"
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full mr-3">
+                            <div>
+                                <p class="font-medium text-gray-900">王先生</p>
+                                <p class="text-xs text-gray-500">房产经纪人</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white text-center">
+                <h3 class="text-2xl font-bold mb-4">立即开始您的智能估值之旅</h3>
+                <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                    注册房估宝，3分钟获取专业房产估值报告，做出更明智的房产决策
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showPage('signup')" class="px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:shadow-lg transition-all">
+                        免费注册
+                    </button>
+                    <button onclick="showPage('login')" class="px-8 py-3 bg-white bg-opacity-20 text-white rounded-xl font-semibold hover:bg-opacity-30 transition-all">
+                        立即登录
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Pricing Page -->
+    <div id="pricing" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('landing')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">服务价格</h1>
+                                <p class="text-sm text-gray-600">选择适合您的会员套餐</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="showPage('signup')" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition-all">
+                        免费注册
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Hero Section -->
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">透明定价，灵活选择</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    我们提供多种会员套餐，满足不同用户的需求，让您以合理的价格享受专业的房产估值服务
+                </p>
+            </div>
+
+            <!-- Pricing Toggle -->
+            <div class="flex justify-center mb-12">
+                <div class="bg-gray-100 p-1 rounded-xl inline-flex">
+                    <button class="px-6 py-2 rounded-xl bg-white shadow font-medium text-gray-900">月付</button>
+                    <button class="px-6 py-2 rounded-xl font-medium text-gray-600 hover:bg-gray-50 transition-colors">年付（省20%）</button>
+                </div>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Free Plan -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all">
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">基础版</h3>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold text-gray-900">¥0</span>
+                            <span class="text-gray-500 ml-2">/永久</span>
+                        </div>
+                        <p class="text-gray-600 mb-6">适合初次体验的用户，了解基本的房产估值功能</p>
+                        <button onclick="showPage('signup')" class="w-full py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-all">
+                            免费注册
+                        </button>
+                    </div>
+                    <div class="bg-gray-50 p-8">
+                        <ul class="space-y-4">
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>每月3次免费估值</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>基础估值报告</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>区域市场概览</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times text-red-400 mr-3"></i>
+                                <span>高级分析功能</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times text-red-400 mr-3"></i>
+                                <span>专业评估师点评</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times text-red-400 mr-3"></i>
+                                <span>投资建议</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Standard Plan -->
+                <div class="bg-white rounded-2xl border border-blue-200 overflow-hidden hover:shadow-lg transition-all transform scale-105 relative">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 rounded-bl-xl text-sm font-medium">
+                        最受欢迎
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">专业版</h3>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold text-blue-600">¥39</span>
+                            <span class="text-gray-500 ml-2">/月</span>
+                        </div>
+                        <p class="text-gray-600 mb-6">适合个人购房者和小型投资者，提供全面的估值服务</p>
+                        <button onclick="showPage('signup')" class="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                            立即订阅
+                        </button>
+                    </div>
+                    <div class="bg-blue-50 p-8">
+                        <ul class="space-y-4">
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>每月20次估值</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>专业估值报告</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>详细市场分析</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>高级分析功能</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>专业评估师点评</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times text-red-400 mr-3"></i>
+                                <span>投资组合分析</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all">
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">尊享版</h3>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold text-gray-900">¥99</span>
+                            <span class="text-gray-500 ml-2">/月</span>
+                        </div>
+                        <p class="text-gray-600 mb-6">适合专业投资者和房产经纪人，提供最全面的高级功能</p>
+                        <button onclick="showPage('signup')" class="w-full py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-all">
+                            立即订阅
+                        </button>
+                    </div>
+                    <div class="bg-gray-50 p-8">
+                        <ul class="space-y-4">
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>无限次估值</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>高级估值报告</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>深度市场分析</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>高级分析功能</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>专业评估师点评</span>
+                            </li>
+                            <li class="flex items-center text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>投资组合分析</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Comparison -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">功能对比</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">功能</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">基础版</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-blue-600 uppercase tracking-wider">专业版</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">尊享版</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">每月估值次数</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">3次</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600">20次</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">无限</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">估值报告</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">基础</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600">专业</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">高级</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">市场分析</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">概览</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600">详细</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">深度</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">专业评估师点评</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-times text-red-400"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600"><i class="fas fa-check text-green-500"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">投资建议</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-times text-red-400"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600"><i class="fas fa-check text-green-500"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">投资组合分析</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-times text-red-400"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600"><i class="fas fa-times text-red-400"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">报告导出（PDF）</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-times text-red-400"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600"><i class="fas fa-check text-green-500"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">优先客服支持</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-times text-red-400"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center font-medium text-blue-600"><i class="fas fa-times text-red-400"></i></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">常见问题</h3>
+                <div class="space-y-6">
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">如何选择适合我的会员套餐？</h4>
+                        <p class="text-gray-600">
+                            如果您是首次使用房估宝，可以先选择免费的基础版体验基本功能。个人购房者或小型投资者推荐选择专业版，可以获取更详细的估值报告和市场分析。专业投资者或房产经纪人建议选择尊享版，可以无限次使用所有高级功能。
+                        </p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">会员可以随时取消吗？</h4>
+                        <p class="text-gray-600">
+                            是的，您可以随时取消会员订阅，取消后将不再续费。已付费的会员期限内仍可继续使用所有功能，直到当前订阅期结束。
+                        </p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">估值结果的准确性如何？</h4>
+                        <p class="text-gray-600">
+                            房估宝基于海量市场数据和先进的AI算法，估值准确率高达90%。专业版和尊享版会员还可以获得专业评估师的点评，进一步提高估值的专业性和参考价值。
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">可以申请企业批量账户吗？</h4>
+                        <p class="text-gray-600">
+                            是的，我们为房产中介、开发商等企业客户提供定制化的批量账户方案，包括批量估值、API接口等高级功能。请联系我们的企业客户经理获取详细信息。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white text-center">
+                <h3 class="text-2xl font-bold mb-4">还有疑问？</h3>
+                <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                    联系我们的客服团队，获取更多关于会员套餐的详细信息和个性化建议
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-headset mr-2"></i>
+                        在线客服
+                    </button>
+                    <button class="px-8 py-3 bg-white bg-opacity-20 text-white rounded-xl font-semibold hover:bg-opacity-30 transition-all flex items-center justify-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        发送邮件
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="about" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('landing')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">关于我们</h1>
+                                <p class="text-sm text-gray-600">了解房估宝的使命与团队</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="showPage('signup')" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition-all">
+                        免费注册
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Hero Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white mb-12 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-32 translate-x-32"></div>
+                <div class="relative z-10 flex flex-col md:flex-row items-center">
+                    <div class="md:w-2/3 mb-6 md:mb-0 md:pr-8">
+                        <h2 class="text-3xl font-bold mb-4">我们的使命</h2>
+                        <p class="text-blue-100 mb-6 text-lg leading-relaxed">
+                            房估宝致力于通过人工智能技术革新房产估值行业，让每个人都能获得专业、准确、便捷的房产估值服务，助力用户做出明智的房产决策。
+                        </p>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-users text-blue-200 mr-2"></i>
+                                <span>10+专业团队</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-map-marker-alt text-blue-200 mr-2"></i>
+                                <span>同济大学</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar-alt text-blue-200 mr-2"></i>
+                                <span>成立于2025年</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/3 flex justify-center">
+                        <img src="Snaprop_Logo_Option_3.png" class="w-48 h-48 object-cover rounded-3xl shadow-2xl">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Story -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">团队故事</h3>
+                <div class="space-y-6">
+                    <p class="text-gray-600">
+                        房估宝团队专注于"让智能评估触达每一处房产"的团队理念，助力人工智能技术与房产评估这一人工依赖严重的技术深度融合，不断开发完善"房估宝"这一房产评估新范式。
+                    </p>
+                    <p class="text-gray-600">
+                        房估宝团队由同济大学的师生组成，团队成员来自于同济大学计算机科学学院，经济与管理学院，建筑与规划学院，具有丰富的人工智能知识与房产评估知识。
+                    </p>
+                    <p class="text-gray-600">
+                       时至今日，房估宝团队仍在不断吸纳来自同济大学以及全国各高校，社会各界的优秀人才，共同投入"房估宝"房产估值新范式的研发与应用。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Core Values -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">专业可靠</h4>
+                    <p class="text-gray-600">
+                        我们坚持以专业的态度和技术提供可靠的估值服务，确保每一份估值报告都经过严格的数据验证和专业审核，为用户决策提供坚实支持。
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-lightbulb text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">创新驱动</h4>
+                    <p class="text-gray-600">
+                        我们不断探索AI技术在房产领域的创新应用，持续优化算法模型和用户体验，引领行业技术变革，为用户创造更大价值。
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">用户至上</h4>
+                    <p class="text-gray-600">
+                        我们始终将用户需求放在首位，倾听用户反馈，不断完善产品功能和服务体验，致力于为每位用户提供最有价值的房产决策支持。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Leadership Team -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">核心团队</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <img src="王博.jpg" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">王博</h4>
+                        <p class="text-blue-600 font-medium mb-2">CTO</p>
+                        <p class="text-sm text-gray-600 mb-3">
+                           同济大学国豪书院计算机科学与技术大二学生，有丰富规则学习，机器学习经验。
+                        </p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <img src="杨竣雅.jpg" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">杨竣雅</h4>
+                        <p class="text-blue-600 font-medium mb-2">创始人</p>
+                        <p class="text-sm text-gray-600 mb-3">
+                            同济大学国豪书院数据科学与大数据技术大二学生，有丰富的数据分析经验。
+                        </p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <img src="沈书铭.jpg" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">沈书铭</h4>
+                        <p class="text-blue-600 font-medium mb-2">首席房产评估师</p>
+                        <p class="text-sm text-gray-600 mb-3">
+                            同济大学国豪书院数据科学与大数据技术大二学生，有丰富的数据分析经验，有丰富的房产评估经验。
+                        </p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                                <i class="fab fa-weixin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investors -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">投资机构</h3>
+                <div class="flex justify-center">
+                    <a href="https://lonestarfunds.com/" target="_blank" class="p-8 border border-gray-200 rounded-xl flex items-center justify-center h-32 hover:shadow-md transition-all">
+                        <span class="text-3xl font-bold text-gray-800">龙星基金</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">联系我们</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-center p-6 border border-gray-200 rounded-xl hover:shadow-md transition-all">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-map-marker-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">团队地址</h4>
+                        <p class="text-gray-600 text-center">
+                            上海市杨浦区同济大学<br>
+                            四平路1239号<br>
+                            同济大学国豪书院西南一楼
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center p-6 border border-gray-200 rounded-xl hover:shadow-md transition-all">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-phone-alt text-green-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">联系电话</h4>
+                        <p class="text-gray-600 text-center">
+                            客服热线: 17535882765<br>
+                            商务合作: 17535882765<br>
+                            工作时间: 9:00-18:00 (周一至周五)
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center p-6 border border-gray-200 rounded-xl hover:shadow-md transition-all">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-envelope text-purple-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">电子邮箱</h4>
+                        <p class="text-gray-600 text-center">
+                            客户服务: 1605902802@qq.com<br>
+                            商务合作: 2351563@tongji.edu.cn<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">团队位置</h3>
+                <div class="h-96 bg-gray-200 rounded-xl">
+                    <iframe src="map.jpg" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    <div class="w-full h-full flex items-center justify-center">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Join Us Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white text-center">
+                <h3 class="text-2xl font-bold mb-4">加入我们</h3>
+                <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                    我们正在寻找热爱技术、关注用户体验的优秀人才加入团队，一起用AI技术改变房产行业
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:shadow-lg transition-all">
+                        查看职位
+                    </button>
+                    <button class="px-8 py-3 bg-white bg-opacity-20 text-white rounded-xl font-semibold hover:bg-opacity-30 transition-all">
+                        了解企业文化
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Yearly Pricing Page -->
+    <div id="yearly_pricing" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showPage('pricing')" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-all">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <img src="Snaprop_Logo_Option_3.png" alt="房估宝" class="w-8 h-8 rounded-xl">
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900">年付会员</h1>
+                                <p class="text-sm text-gray-600">省钱更省心，专享尊贵权益</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="showPage('signup')" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition-all">
+                        免费注册
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Hero Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white mb-10 relative overflow-hidden text-center">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-32 translate-x-32"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold mb-4">年付套餐 · 一次付费全年无忧</h2>
+                    <p class="text-blue-100 mb-6 text-lg leading-relaxed">
+                        选择年付套餐，立享<span class="font-bold text-yellow-300">8折优惠</span>，尊享全年专业房产估值服务，专属权益、优先客服、更多增值功能等你体验！
+                    </p>
+                    <div class="flex flex-col items-center justify-center mb-6">
+                        <span class="text-5xl font-bold text-white mb-2">¥375</span>
+                        <span class="text-blue-100">原价¥468/年，限时8折</span>
+                    </div>
+                    <button onclick="showPage('signup')" class="px-10 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:shadow-lg transition-all text-lg">
+                        立即开通年付会员
+                    </button>
+                </div>
+            </div>
+
+            <!-- 权益 Section -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-10">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">年付会员专属权益</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-infinity text-blue-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-2">全年无限次估值</h4>
+                            <p class="text-gray-600">不限次数，随时随地享受AI智能估值服务，满足多房产、多场景需求。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-file-alt text-purple-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-2">高级估值报告</h4>
+                            <p class="text-gray-600">获取详细市场分析、价值影响因素、专业评估师点评等深度报告内容。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-headset text-green-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-2">优先客服支持</h4>
+                            <p class="text-gray-600">专属客服通道，快速响应，解决您的所有疑问与需求。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-gift text-orange-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-2">增值功能持续解锁</h4>
+                            <p class="text-gray-600">新功能、新服务优先体验，持续为您带来更多价值。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm mb-10">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">常见问题</h3>
+                <div class="space-y-6">
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">年付套餐和月付套餐有何区别？</h4>
+                        <p class="text-gray-600">
+                            年付套餐价格更优惠，功能权益与尊享版一致，适合长期有房产估值需求的用户。一次付费，全年无忧。
+                        </p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">年付会员可以随时取消吗？</h4>
+                        <p class="text-gray-600">
+                            年付会员开通后，权益持续12个月，期间可随时联系客服咨询服务内容。到期前可选择续费。
+                        </p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">年付套餐适合哪些人群？</h4>
+                        <p class="text-gray-600">
+                            适合有多套房产、投资需求、房产经纪人、开发商等高频估值用户，也适合希望一次性解决全年估值需求的个人用户。
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">如何开通年付套餐？</h4>
+                        <p class="text-gray-600">
+                            点击"立即开通年付会员"按钮，注册/登录后即可完成支付并享受全部权益。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white text-center">
+                <h3 class="text-2xl font-bold mb-4">立即升级，开启全年尊享体验</h3>
+                <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                    选择年付套餐，享受全年无限次专业估值、专属客服和更多增值服务，省钱更省心！
+                </p>
+                <button onclick="showPage('signup')" class="px-10 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:shadow-lg transition-all text-lg">
+                    立即开通年付会员
+                </button>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    let currentPage = 'landing';
+    
+    function showPage(pageName) {
+        // Hide all pages
+        pages.forEach(page => {
+            document.getElementById(page).classList.add('hidden');
+        });
+        
+        // Show selected page
+        document.getElementById(pageName).classList.remove('hidden');
+        currentPage = pageName;
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+    }
+
+    function handleCertificateUpload(event) {
+        const files = event.target.files;
+        const container = document.getElementById('certificateImages');
+        
+        if (files.length > 0) {
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < Math.min(files.length, 5); i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('div');
+                    img.className = 'relative group';
+                    img.innerHTML = `
+                        <img src="${e.target.result}" class="w-full h-32 object-cover rounded-xl">
+                        <button class="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    container.appendChild(img);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+    
+    function handlePropertyUpload(event) {
+        const files = event.target.files;
+        const container = document.getElementById('propertyImages');
+        
+        if (files.length > 0) {
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < Math.min(files.length, 10); i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('div');
+                    img.className = 'relative group';
+                    img.innerHTML = `
+                        <img src="${e.target.result}" class="w-full h-24 object-cover rounded-xl">
+                        <button class="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    container.appendChild(img);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    function startValuation() {
+        // Show loading animation
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>分析中...';
+        button.disabled = true;
+        
+        // Simulate processing time
+        setTimeout(() => {
+            showPage('results');
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }, 3000);
+    }
+    
+    // 添加页面列表
+    const pages = ['landing', 'login', 'signup', 'dashboard', 'valuation', 'valuation_step2', 'results', 'history', 'profile', 'market_trends', 'features_detail', 'pricing', 'about'];
+
+    // Add smooth scrolling for navigation links
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (currentPage === 'landing') {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+    // Add floating navigation dots for landing page
+    function createFloatingNav() {
+        const nav = document.createElement('div');
+        nav.className = 'fixed right-8 top-1/2 transform -translate-y-1/2 z-40 space-y-2';
+        nav.id = 'floatingNav';
+        nav.innerHTML = `
+            <a onclick="showPage('landing')" class="block w-3 h-3 bg-blue-600 rounded-full opacity-50 hover:opacity-100 transition-all cursor-pointer"></a>
+            <a onclick="showPage('features_detail')" class="block w-3 h-3 bg-gray-400 rounded-full opacity-50 hover:opacity-100 transition-all cursor-pointer"></a>
+            <a onclick="showPage('pricing')" class="block w-3 h-3 bg-gray-400 rounded-full opacity-50 hover:opacity-100 transition-all cursor-pointer"></a>
+            <a onclick="showPage('about')" class="block w-3 h-3 bg-gray-400 rounded-full opacity-50 hover:opacity-100 transition-all cursor-pointer"></a>
+        `;
+        
+        if (currentPage === 'landing') {
+            document.body.appendChild(nav);
+        }
+    }
+
+    // Remove floating nav when leaving landing page
+    function removeFloatingNav() {
+        const nav = document.getElementById('floatingNav');
+        if (nav) {
+            nav.remove();
+        }
+    }
+
+    // Update page show function to handle floating nav
+    const originalShowPage = showPage;
+    showPage = function(pageName) {
+        if (pageName === 'landing') {
+            createFloatingNav();
+        } else {
+            removeFloatingNav();
+        }
+        originalShowPage(pageName);
+    };
+</script>
+</body>
+</html>
