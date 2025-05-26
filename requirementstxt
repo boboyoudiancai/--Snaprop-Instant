@@ -1,0 +1,15 @@
+        Flask
+        pandas
+        openpyxl
+        reportlab
+        cn2an
+        dashscope
+        alibabacloud_ocr_api20210707
+        alibabacloud_tea_openapi
+        alibabacloud_tea_util
+        mysql-connector-python
+        SQLAlchemy
+        Pillow
+        requests
+        scikit-learn
+        numpy
